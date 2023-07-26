@@ -1,4 +1,5 @@
 <script>
+  import PreviewStl from "./PreviewSTL.svelte";
   import Square from "./Square.svelte";
 </script>
 
@@ -9,6 +10,7 @@
 
 <section>
   <Square />
+  <PreviewStl />
 </section>
 
 <style>
