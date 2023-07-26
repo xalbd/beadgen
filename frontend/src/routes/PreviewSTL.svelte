@@ -47,5 +47,3 @@
     animate();
   }
 </script>
-
-<body class="h-10" />
