@@ -4,8 +4,8 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
+  <title>Bead Generation</title>
+  <meta name="description" content="Automatic Wire-Jamming Bead Generation" />
 </svelte:head>
 
 <section>
