@@ -1,5 +1,6 @@
-node_modules/
+node_modules
 .DS_Store
 __pycache__
 .svelte-kit
-generated/
+generated
+/build
