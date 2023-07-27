@@ -1,11 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import * as THREE from "three";
-
-  let camera: THREE.PerspectiveCamera;
-  let scene: THREE.Scene;
-  let renderer: THREE.WebGLRenderer;
-  let cube: THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>;
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+  import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 
   function createViewer() {
     let elem = document.getElementById("model");
@@ -13,28 +10,59 @@
       return;
     }
 
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(
+    let camera = new THREE.PerspectiveCamera(
       75,
       elem.clientWidth / elem.clientHeight,
-      1,
+      0.1,
       1000
     );
+    let scene = new THREE.Scene();
+    let renderer = new THREE.WebGLRenderer({ antialias: true });
 
-    renderer = new THREE.WebGLRenderer();
     renderer.setSize(elem.clientWidth, elem.clientHeight);
     elem.appendChild(renderer.domElement);
+    const light = new THREE.SpotLight();
+    light.position.set(20, 20, 20);
+    scene.add(light);
+    scene.add(new THREE.AxesHelper(5));
 
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
 
-    camera.position.z = 5;
-    camera.position.y = -1;
-    camera.position.x = 2;
-    renderer.clear();
-    renderer.render(scene, camera);
+    const loader = new STLLoader();
+    loader.load(
+      "http://localhost:8000/api/cone?radius=5&hole_radius=0.5&tip_angle=90",
+      function (geometry) {
+        var material = new THREE.MeshPhongMaterial({
+          color: 0xff5533,
+          specular: 100,
+          shininess: 100,
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+      },
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    camera.position.y = 5;
+    function animate() {
+      requestAnimationFrame(animate);
+
+      controls.update();
+
+      render();
+    }
+
+    function render() {
+      renderer.render(scene, camera);
+    }
+
+    animate();
   }
 
   onMount(() => {

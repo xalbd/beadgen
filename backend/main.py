@@ -24,7 +24,7 @@ directory = str(pathlib.Path().resolve()) + "/generated/"
 
 
 @app.get("/api/square")
-def get_square(width, height):
+def get_square(width=10, height=10):
     timestr = time.strftime("%y%m%d-%H%M%S")
     filename = f"{timestr}-test.svg"
 
