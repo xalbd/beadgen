@@ -2,7 +2,7 @@
 
 ### Install
 
-First, install Python 3.10+ and the requesite Python packages for the back-end file generation listed in `backend/requirements.txt`.The latest versions of each should work.
+First, install Python 3.10+ and the requisite Python packages for the back-end file generation listed in `backend/requirements.txt`.The latest versions of each should work.
 
 Then, install the Node environment/dependencies needed for the front-end user interface.
 
@@ -13,7 +13,7 @@ $ npm install
 
 ### Running
 
-First, activate the Python backend. It runs on localhost:8000. If you're using a virtual environment (venv, conda, etc), enter it.
+First, activate the Python backend. It runs on localhost:8000. If you're using a virtual environment (venv, conda, etc), activate it.
 
 ```
 $ cd backend
