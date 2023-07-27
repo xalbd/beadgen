@@ -1,10 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Annotated
 import svgwrite
 import time
 import pathlib
-
+from build123d import *
+import math
+import tools
 
 app = FastAPI()
 
@@ -42,3 +45,25 @@ def get_square(width, height):
 @app.get("/api/teststl")
 def get_test_stl():
     return FileResponse(path=directory + "test.stl", filename="test.stl")
+
+
+@app.get("/api/cone")
+def get_cone_tip(
+    radius: Annotated[float, Query(gt=0)],
+    hole_radius: Annotated[float, Query(gt=0)],
+    tip_angle: Annotated[float, Query(gt=0, lt=180)],
+):
+    if not (0 < hole_radius < radius and 0 <= tip_angle < 180):
+        print("parameters out of range")
+        return
+
+    cone_height = radius / math.tan(math.radians(tip_angle / 2))
+    tip = Pos(0, 0, 0) * Cone(
+        bottom_radius=radius,
+        top_radius=hole_radius,
+        height=cone_height,
+        align=(Align.CENTER, Align.CENTER, Align.MIN),
+    )
+
+    filename = tools.exportSTL(tip, "cone-tip", 1)
+    return FileResponse(path=directory + filename, filename=filename)

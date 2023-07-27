@@ -1,49 +1,45 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
+  import { onMount } from "svelte";
   import * as THREE from "three";
 
-  if (browser) {
-    let camera: THREE.PerspectiveCamera;
-    let scene: THREE.Scene;
-    let renderer: THREE.WebGLRenderer;
-    let cube: THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>;
+  let camera: THREE.PerspectiveCamera;
+  let scene: THREE.Scene;
+  let renderer: THREE.WebGLRenderer;
+  let cube: THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>;
 
-    const init = () => {
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
+  function createViewer() {
+    let elem = document.getElementById("model");
+    if (elem == null) {
+      return;
+    }
 
-      renderer = new THREE.WebGLRenderer();
-      renderer.setSize(document.body.clientWidth / 2, window.outerHeight / 2);
-      document.body.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(
+      75,
+      elem.clientWidth / elem.clientHeight,
+      1,
+      1000
+    );
 
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(elem.clientWidth, elem.clientHeight);
+    elem.appendChild(renderer.domElement);
 
-      camera.position.z = 5;
-    };
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
 
-    const render = () => {
-      renderer.clear();
-      renderer.render(scene, camera);
-    };
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      cube.rotation.x += 0.005;
-      cube.rotation.y += 0.005;
-
-      render();
-    };
-
-    init();
-    animate();
+    camera.position.z = 5;
+    camera.position.y = -1;
+    camera.position.x = 2;
+    renderer.clear();
+    renderer.render(scene, camera);
   }
+
+  onMount(() => {
+    createViewer();
+  });
 </script>
+
+<div id="model" style="width: 500px; height: 500px" />
