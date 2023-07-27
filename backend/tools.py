@@ -2,7 +2,6 @@ import time
 from typing import Optional
 import math
 from build123d import *
-from ocp_vscode import *
 
 
 def exportSTL(item: Part, name: str, quality: int) -> None:
@@ -38,7 +37,6 @@ def combineItemList(items: list[Part], offset_amount: float) -> Part:
     out = Part()
     for i in range(len(items)):
         out += Pos(i // grid_size * offset_amount, i % grid_size * offset_amount, 0) * items[i]
-    # show(out)
     return out
 
 

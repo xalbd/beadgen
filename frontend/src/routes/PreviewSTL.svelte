@@ -31,7 +31,7 @@
 
     const loader = new STLLoader();
     loader.load(
-      "http://localhost:8000/api/cone?radius=5&hole_radius=0.5&tip_angle=90",
+      "http://localhost:8000/api/cone?radius=1&hole_radius=0.5&tip_angle=90",
       function (geometry) {
         var material = new THREE.MeshPhongMaterial({
           color: 0xff5533,

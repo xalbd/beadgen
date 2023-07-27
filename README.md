@@ -2,17 +2,7 @@
 
 ### Install
 
-First, install the requesite Python packages for the back-end file generation. Assuming conda usage, run
-
-```
-$ conda env create -f environment.yml
-```
-
-In case of manual installs, the following are requesites:
-
-```
-python=3.10.12
-```
+First, install Python 3.10+ and the requesite Python packages for the back-end file generation listed in `backend/requirements.txt`.The latest versions of each should work.
 
 Then, install the Node environment/dependencies needed for the front-end user interface.
 
@@ -23,11 +13,10 @@ $ npm install
 
 ### Running
 
-First, activate the Python backend. It runs on localhost:8000.
+First, activate the Python backend. It runs on localhost:8000. If you're using a virtual environment (venv, conda, etc), enter it.
 
 ```
 $ cd backend
-$ conda activate lemur
 $ uvicorn main:app --reload
 ```
 

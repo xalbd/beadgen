@@ -1,0 +1,4 @@
+build123d==0.1.dev873+g8d2c541
+fastapi==0.100.1
+svgwrite==1.4.3
+uvicorn==0.23.1
