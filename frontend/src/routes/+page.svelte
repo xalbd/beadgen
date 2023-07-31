@@ -1,6 +1,5 @@
 <script>
-  import PreviewStl from "./PreviewSTL.svelte";
-  import Square from "./Square.svelte";
+  import TipPreview from "./TipPreview.svelte";
 </script>
 
 <svelte:head>
@@ -8,9 +7,8 @@
   <meta name="description" content="Automatic Wire-Jamming Bead Generation" />
 </svelte:head>
 
-<section class="flex flex-row flex-nowrap">
-  <Square />
-  <PreviewStl />
+<section class="flex flex-col">
+  <TipPreview />
 </section>
 
 <style>

@@ -4,8 +4,8 @@
   let source = `http://localhost:8000/api/square?width=${width}&height=${height}`;
 </script>
 
-<section class="flex flex-row w-screen">
-  <img class="w-1/4 flex-initial" src={source} alt="bruh" />
+<section class="flex flex-row flex-wrap w-screen bg-slate-100">
+  <img class="w-1/4" src={source} alt="SVG Preview" />
 
   <button
     class="w-40 h-10 rounded-full bg-slate-600"

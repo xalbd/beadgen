@@ -42,13 +42,9 @@ def get_square(width=10, height=10):
     return FileResponse(path=directory + filename, media_type="image/svg+xml", filename=filename)
 
 
-@app.get("/api/teststl")
-def get_test_stl():
-    return FileResponse(path=directory + "test.stl", filename="test.stl")
-
-
-@app.get("/api/cone")
-def get_cone_tip(
+@app.get("/api/tip")
+def get_tip(
+    type: Annotated[int, Query(ge=0, le=1)],
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     tip_angle: Annotated[float, Query(gt=0, lt=180)],
@@ -65,5 +61,5 @@ def get_cone_tip(
         align=(Align.CENTER, Align.CENTER, Align.MIN),
     )
 
-    filename = tools.exportSTL(tip, "cone-tip", 1)
+    filename = tools.exportSTL(tip, "tip", 1)
     return FileResponse(path=directory + filename, filename=filename)
