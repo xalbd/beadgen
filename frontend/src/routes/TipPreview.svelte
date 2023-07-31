@@ -10,22 +10,21 @@
     shininess: 100,
   });
 
-  var loader = new STLLoader();
-  var scene = new THREE.Scene();
-  var mesh = new THREE.Mesh();
+  let loader = new STLLoader();
+  let scene = new THREE.Scene();
 
-  let tip_type: any;
+  let tip_type: string;
   let radius = 2;
   let hole_radius = 0.5;
   let tip_angle = 90;
 
   let api_path: string;
   $: api_path = `http://localhost:8000/api/tip?type=${
-    !tip_type ? "0" : tip_type != "Cone"
+    !tip_type ? "0" : tip_type
   }&radius=${radius}&hole_radius=${hole_radius}&tip_angle=${tip_angle}`;
 
   onMount(() => {
-    loadSTL(loader, mesh, scene, material, api_path);
+    loadSTL(loader, scene, material, api_path);
     createViewer(scene);
   });
 </script>
@@ -34,8 +33,8 @@
   <div class="flex flex-col">
     <label for="tip-type"> Tip Type </label>
     <select name="tip-type" bind:value={tip_type}>
-      <option value="Cone">Cone</option>
-      <option value="Sphere">Sphere</option>
+      <option value="0">Cone</option>
+      <option value="1">Sphere</option>
     </select>
 
     <label for="radius-input"> Radius </label>
@@ -54,7 +53,7 @@
       bind:value={hole_radius}
     />
 
-    {#if !tip_type || tip_type == "Cone"}
+    {#if !tip_type || tip_type == "0"}
       <label for="tip-angle-input"> Tip Angle </label>
       <input
         name="tip-angle-input"
@@ -67,7 +66,7 @@
     <button
       class="h-10 rounded-full bg-green-500"
       on:click={() => {
-        loadSTL(loader, mesh, scene, material, api_path);
+        loadSTL(loader, scene, material, api_path);
       }}
     >
       Generate STL

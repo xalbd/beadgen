@@ -48,7 +48,6 @@ export function createViewer(scene: THREE.Scene) {
 
 export function loadSTL(
   loader: STLLoader,
-  mesh: THREE.Mesh,
   scene: THREE.Scene,
   material: THREE.Material,
   api_path: string
@@ -56,9 +55,8 @@ export function loadSTL(
   loader.load(
     api_path,
     function (geometry) {
-      scene.remove(mesh);
-      mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+      scene.remove(scene.children[1]); // removes pre-existing mesh, if necessary
+      scene.add(new THREE.Mesh(geometry, material));
     },
     (xhr) => {
       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
