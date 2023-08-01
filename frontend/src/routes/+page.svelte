@@ -1,4 +1,5 @@
 <script>
+  import BeadPreview from "./BeadPreview.svelte";
   import TipPreview from "./TipPreview.svelte";
 </script>
 
@@ -9,6 +10,7 @@
 
 <section class="flex flex-col">
   <TipPreview />
+  <BeadPreview />
 </section>
 
 <style>

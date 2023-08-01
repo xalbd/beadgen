@@ -13,15 +13,19 @@
   let loader = new STLLoader();
   let scene = new THREE.Scene();
 
-  let tip_type: string;
+  let tip_type = "Cone";
   let radius = 2;
   let hole_radius = 0.5;
   let tip_angle = 90;
 
   let api_path: string;
-  $: api_path = `http://localhost:8000/api/tip?type=${
-    !tip_type ? "0" : tip_type
-  }&radius=${radius}&hole_radius=${hole_radius}&tip_angle=${tip_angle}`;
+  $: {
+    if (tip_type == "Cone") {
+      api_path = `http://localhost:8000/api/cone_tip?radius=${radius}&hole_radius=${hole_radius}&tip_angle=${tip_angle}`;
+    } else if (tip_type == "Sphere") {
+      api_path = `http://localhost:8000/api/sphere_tip?radius=${radius}&hole_radius=${hole_radius}`;
+    }
+  }
 
   onMount(() => {
     loadSTL(loader, scene, material, api_path);
@@ -33,8 +37,8 @@
   <div class="flex flex-col">
     <label for="tip-type"> Tip Type </label>
     <select name="tip-type" bind:value={tip_type}>
-      <option value="0">Cone</option>
-      <option value="1">Sphere</option>
+      <option value="Cone">Cone</option>
+      <option value="Sphere">Sphere</option>
     </select>
 
     <label for="radius-input"> Radius </label>
@@ -53,7 +57,7 @@
       bind:value={hole_radius}
     />
 
-    {#if !tip_type || tip_type == "0"}
+    {#if !tip_type || tip_type == "Cone"}
       <label for="tip-angle-input"> Tip Angle </label>
       <input
         name="tip-angle-input"

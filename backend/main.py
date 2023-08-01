@@ -8,6 +8,7 @@ import pathlib
 from build123d import *
 import math
 import tools
+import beadGen
 
 app = FastAPI()
 
@@ -42,24 +43,20 @@ def get_square(width=10, height=10):
     return FileResponse(path=directory + filename, media_type="image/svg+xml", filename=filename)
 
 
-@app.get("/api/tip")
-def get_tip(
-    type: Annotated[int, Query(ge=0, le=1)],
+@app.get("/api/cone_tip")
+def cone_tip(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     tip_angle: Annotated[float, Query(gt=0, lt=180)],
 ):
-    if not (0 < hole_radius < radius and 0 <= tip_angle < 180):
-        print("parameters out of range")
-        return
+    filename = beadGen.generateConeTip(radius=radius, hole_radius=hole_radius, tip_angle=tip_angle)
+    return FileResponse(path=directory + filename, filename=filename)
 
-    cone_height = radius / math.tan(math.radians(tip_angle / 2))
-    tip = Pos(0, 0, 0) * Cone(
-        bottom_radius=radius,
-        top_radius=hole_radius,
-        height=cone_height,
-        align=(Align.CENTER, Align.CENTER, Align.MIN),
-    )
 
-    filename = tools.exportSTL(tip, "tip", 1)
+@app.get("/api/sphere_tip")
+def cone_tip(
+    radius: Annotated[float, Query(gt=0)],
+    hole_radius: Annotated[float, Query(gt=0)],
+):
+    filename = beadGen.generateSphereTip(radius=radius, hole_radius=hole_radius)
     return FileResponse(path=directory + filename, filename=filename)
