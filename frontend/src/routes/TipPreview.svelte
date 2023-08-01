@@ -73,7 +73,7 @@
         loadSTL(loader, scene, material, api_path);
       }}
     >
-      Generate STL
+      Update Tip
     </button>
   </div>
   <div class="relative w-fill flex-1 min-w-0 bg-slate-500" id="model" />
