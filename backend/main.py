@@ -20,8 +20,6 @@ app.add_middleware(
 )
 
 directory = str(pathlib.Path().resolve()) + "/generated/"
-current_tip: Part = beadGen.generateConeTip(radius=1, hole_radius=0.5, tip_angle=90)[1]
-current_bead: Part = beadGen.generateBead(cut=current_tip, length=5)
 
 
 @app.get("/api/square")
@@ -50,7 +48,7 @@ def cone_tip(
     tip_angle: Annotated[float, Query(gt=0, lt=180)],
 ):
     result = beadGen.generateConeTip(radius=radius, hole_radius=hole_radius, tip_angle=tip_angle)
-    current_tip = result[1]
+    app.current_tip = result[1]
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 
@@ -61,7 +59,7 @@ def sphere_tip(
     hole_radius: Annotated[float, Query(gt=0)],
 ):
     result = beadGen.generateSphereTip(radius=radius, hole_radius=hole_radius)
-    current_tip = result[1]
+    app.current_tip = result[1]
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 
@@ -70,9 +68,10 @@ def sphere_tip(
 def bead(
     length: Annotated[float, Query(gt=0)],
 ):
-    if not current_tip:
+    if not app.current_tip:
+        print("not found")
         return
-    result = beadGen.generateBead(cut=current_tip, length=length)
-    current_bead = result[1]
+    result = beadGen.generateBead(cut=app.current_tip, length=length)
+    app.current_bead = result[1]
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
