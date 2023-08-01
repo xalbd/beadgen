@@ -20,11 +20,11 @@
 
   onMount(() => {
     loadSTL(loader, scene, material, api_path);
-    createViewer(scene);
+    createViewer(scene, "bead-stl");
   });
 </script>
 
-<div class="flex flex-row w-screen">
+<div class="flex flex-row flex-1">
   <div class="flex flex-col">
     <label for="length-input"> Length </label>
     <input
@@ -40,10 +40,10 @@
         loadSTL(loader, scene, material, api_path);
       }}
     >
-      Generate STL
+      Update Bead
     </button>
   </div>
-  <div class="relative w-fill flex-1 min-w-0 bg-slate-500" id="model" />
+  <div class="relative flex-1 p-2 bg-slate-200" id="bead-stl" />
 </div>
 
 <style></style>

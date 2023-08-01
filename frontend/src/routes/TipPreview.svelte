@@ -29,11 +29,11 @@
 
   onMount(() => {
     loadSTL(loader, scene, material, api_path);
-    createViewer(scene);
+    createViewer(scene, "tip-stl");
   });
 </script>
 
-<div class="flex flex-row w-screen">
+<div class="flex flex-row flex-1 h-1/2">
   <div class="flex flex-col">
     <label for="tip-type"> Tip Type </label>
     <select name="tip-type" bind:value={tip_type}>
@@ -76,7 +76,7 @@
       Update Tip
     </button>
   </div>
-  <div class="relative w-fill flex-1 min-w-0 bg-slate-500" id="model" />
+  <div class="relative flex-1 p-2 h-screen bg-slate-200" id="tip-stl" />
 </div>
 
 <style></style>
