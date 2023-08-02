@@ -1,5 +1,6 @@
 <script>
   import BeadPreview from "./BeadPreview.svelte";
+  import PathPreview from "./PathPreview.svelte";
   import TipPreview from "./TipPreview.svelte";
 </script>
 
@@ -10,7 +11,7 @@
 
 <section class="flex flex-row">
   <TipPreview />
-  <BeadPreview />
+  <PathPreview />
 </section>
 
 <style>

@@ -30,15 +30,13 @@ export function createViewer(scene: THREE.Scene, id_name: string) {
     false
   );
 
-  // set camera location and add light
+  // add camera and light
   let camera = new THREE.PerspectiveCamera(
     50,
     elem.clientWidth / elem.clientHeight
   );
   scene.add(camera);
   camera.add(new THREE.PointLight(0xffffff, 1));
-  camera.position.y = -5;
-  camera.position.z = 2;
 
   // allow for movement + animate
   const controls = new OrbitControls(camera, elem);
@@ -62,7 +60,23 @@ export function loadSTL(
     api_path,
     function (geometry) {
       scene.remove(scene.children[1]); // removes pre-existing mesh, if necessary
-      scene.add(new THREE.Mesh(geometry, material));
+      let mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+
+      let middle = new THREE.Vector3();
+      geometry.computeBoundingBox();
+      geometry.boundingBox.getCenter(middle);
+      mesh.geometry.applyMatrix4(
+        new THREE.Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z)
+      );
+      var largestDimension = Math.max(
+        geometry.boundingBox.max.x,
+        geometry.boundingBox.max.y,
+        geometry.boundingBox.max.z
+      );
+      scene.children[0].position.y = -largestDimension * 3;
+      scene.children[0].position.x = 0;
+      scene.children[0].position.z = 0;
     },
     (xhr) => {
       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
