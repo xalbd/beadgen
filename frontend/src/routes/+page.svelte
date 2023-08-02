@@ -11,7 +11,7 @@
 
 <section class="flex flex-row">
   <TipPreview />
-  <PathPreview />
+  <BeadPreview />
 </section>
 
 <style>
