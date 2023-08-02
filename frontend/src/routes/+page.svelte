@@ -1,6 +1,5 @@
 <script>
   import BeadPreview from "./BeadPreview.svelte";
-  import PathPreview from "./PathPreview.svelte";
   import TipPreview from "./TipPreview.svelte";
 </script>
 

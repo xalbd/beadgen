@@ -66,6 +66,15 @@
     >
       Update Generation
     </button>
+
+    <button
+      class="h-10 rounded-full bg-red-300"
+      on:click={() => {
+        window.location.href = api_path;
+      }}
+    >
+      Download Generation
+    </button>
   </div>
   <div class="relative flex-1 p-2 bg-slate-200" id="bead-stl" />
 </div>
