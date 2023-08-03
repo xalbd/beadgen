@@ -30,7 +30,7 @@ export function createViewer(scene: THREE.Scene, id_name: string) {
     false
   );
 
-  // add camera and light
+  // add camera and light in [0]
   let camera = new THREE.PerspectiveCamera(
     50,
     elem.clientWidth / elem.clientHeight
@@ -59,10 +59,15 @@ export function loadSTL(
   loader.load(
     api_path,
     function (geometry) {
-      scene.remove(scene.children[1]); // removes pre-existing mesh, if necessary
+      // removes pre-existing mesh/axis
+      scene.remove(scene.children[1]);
+      scene.remove(scene.children[1]);
+
+      // add mesh in [1]
       let mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
 
+      // compute middle of model and extract largest dimension for placement
       let middle = new THREE.Vector3();
       geometry.computeBoundingBox();
       geometry.boundingBox.getCenter(middle);
@@ -74,9 +79,12 @@ export function loadSTL(
         geometry.boundingBox.max.y,
         geometry.boundingBox.max.z
       );
+
+      // add axis to [2] and position camera
+      scene.add(new THREE.AxesHelper(largestDimension * 1.5));
       scene.children[0].position.y = -largestDimension * 3;
       scene.children[0].position.x = 0;
-      scene.children[0].position.z = 0;
+      scene.children[0].position.z = largestDimension * 2;
     },
     (xhr) => {
       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");

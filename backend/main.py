@@ -90,12 +90,29 @@ def bead(
     return FileResponse(path=directory + filename, filename=filename)
 
 
+@app.get("/api/bead_junction")
+def bead(
+    length: Annotated[float, Query(gt=0)],
+):
+    if not app.current_tip:
+        print("not found")
+        return
+    result = beadGen.generateBead(cut=app.current_tip, length=length)
+    app.current_bead = result[1]
+    filename = result[0]
+    return FileResponse(path=directory + filename, filename=filename)
+
+
 @app.get("/api/sphere")
 def bead(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
-    cut_amount: float,
+    effective_angle: Annotated[float, Query(ge=0, lt=90)],
 ):
-    result = beadGen.generateSphere(radius=radius, hole_radius=hole_radius, cut_amount=cut_amount)
+    result = beadGen.generateSphere(
+        radius=radius,
+        hole_radius=hole_radius,
+        effective_angle=effective_angle,
+    )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)

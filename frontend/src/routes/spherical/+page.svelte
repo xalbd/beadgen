@@ -14,11 +14,11 @@
   let scene = new THREE.Scene();
 
   let radius = 5;
-  let hole_radius = 1;
-  let cut_amount = 2;
+  let hole_radius = 0.5;
+  let effective_angle = 30;
 
   let api_path: string;
-  $: api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&cut_amount=${cut_amount}`;
+  $: api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}`;
 
   onMount(() => {
     loadSTL(loader, scene, material, api_path);
@@ -49,12 +49,12 @@
       bind:value={hole_radius}
     />
 
-    <label for="cut-amount-input"> Cut Amount </label>
+    <label for="effective-angle-input"> Effective Angle </label>
     <input
-      name="cut-amount-input"
-      class="h-10 bg-purple-200"
+      name="effective-angle-input"
+      class="h-10 bg-purple-100"
       type="number"
-      bind:value={cut_amount}
+      bind:value={effective_angle}
     />
 
     <button
