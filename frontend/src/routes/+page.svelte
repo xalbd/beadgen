@@ -8,7 +8,7 @@
   <meta name="description" content="Automatic Wire-Jamming Bead Generation" />
 </svelte:head>
 
-<section class="flex flex-row">
+<section class="flex flex-row h-screen">
   <TipPreview />
   <BeadPreview />
 </section>

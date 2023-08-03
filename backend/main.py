@@ -88,3 +88,14 @@ def bead(
     result = beadGen.generateBeadLine(cut=app.current_tip, segments=segments, length=length)
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
+
+
+@app.get("/api/sphere")
+def bead(
+    radius: Annotated[float, Query(gt=0)],
+    hole_radius: Annotated[float, Query(gt=0)],
+    cut_amount: float,
+):
+    result = beadGen.generateSphere(radius=radius, hole_radius=hole_radius, cut_amount=cut_amount)
+    filename = result[0]
+    return FileResponse(path=directory + filename, filename=filename)

@@ -33,7 +33,7 @@
   });
 </script>
 
-<div class="flex flex-row flex-1 h-1/2">
+<div class="flex flex-row flex-1">
   <div class="flex flex-col">
     <label for="tip-type"> Tip Type </label>
     <select name="tip-type" bind:value={tip_type}>
@@ -76,7 +76,7 @@
       Update Tip
     </button>
   </div>
-  <div class="relative flex-1 p-2 h-screen bg-slate-200" id="tip-stl" />
+  <div class="relative flex-1 p-2 bg-slate-200" id="tip-stl" />
 </div>
 
 <style></style>

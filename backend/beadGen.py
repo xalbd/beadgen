@@ -83,3 +83,17 @@ def generateBeadLine(
 
     combined = tools.combineItemList(beads, cut.bounding_box().diagonal)
     return (tools.exportSTL(combined, "bead-line", 1), combined)
+
+
+def generateSphere(radius: float, hole_radius: float, cut_amount: float):
+    if not (hole_radius < radius and cut_amount < radius):
+        print("parameters out of range")  # TODO: how to make this return error onto front-end?
+        return
+
+    sphere = Sphere(radius=radius)
+    sphere -= Cylinder(
+        radius=hole_radius,
+        height=2 * radius,
+    )
+    sphere -= Pos(0, 0, -2 * radius + cut_amount) * Sphere(radius=radius)
+    return (tools.exportSTL(sphere, "sphere-bead", 1), sphere)
