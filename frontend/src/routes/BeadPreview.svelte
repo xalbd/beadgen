@@ -13,15 +13,15 @@
   let loader = new STLLoader();
   let scene = new THREE.Scene();
 
-  let result_type = "Bead";
+  let result_type = "bead";
   let length = 5;
   let segments = 1;
 
   let api_path: string;
   $: {
-    if (result_type == "Bead") {
+    if (result_type == "bead") {
       api_path = `http://localhost:8000/api/bead?length=${length}`;
-    } else if (result_type == "Line") {
+    } else if (result_type == "line") {
       api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}`;
     }
   }
@@ -36,8 +36,8 @@
   <div class="flex flex-col">
     <label for="result-type"> Result Type </label>
     <select name="result-type" bind:value={result_type}>
-      <option value="Bead">Bead</option>
-      <option value="Line">Line</option>
+      <option value="bead">Bead</option>
+      <option value="line">Line</option>
     </select>
 
     <label for="length-input"> Length </label>

@@ -103,6 +103,19 @@ def bead(
     return FileResponse(path=directory + filename, filename=filename)
 
 
+@app.get("/api/simple_sphere")
+def bead(
+    radius: Annotated[float, Query(gt=0)],
+    hole_radius: Annotated[float, Query(gt=0)],
+):
+    result = beadGen.generateSimpleSphere(
+        radius=radius,
+        hole_radius=hole_radius,
+    )
+    filename = result[0]
+    return FileResponse(path=directory + filename, filename=filename)
+
+
 @app.get("/api/sphere")
 def bead(
     radius: Annotated[float, Query(gt=0)],

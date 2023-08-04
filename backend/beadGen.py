@@ -85,6 +85,18 @@ def generateBeadLine(
     return (tools.exportSTL(combined, "bead-line", 1), combined)
 
 
+def generateSimpleSphere(radius: float, hole_radius: float):
+    if not (hole_radius < radius):
+        print("parameters out of range")
+        return
+    sphere = Sphere(radius=radius, align=Align.CENTER)
+    sphere -= Cylinder(
+        radius=hole_radius,
+        height=2 * radius,
+    )
+    return (tools.exportSTL(sphere, "simple-sphere-bead", 1), sphere)
+
+
 def generateSphere(radius: float, hole_radius: float, effective_angle: float):
     effective_angle = math.radians(effective_angle)
     if not (hole_radius < radius):
