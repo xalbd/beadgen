@@ -116,3 +116,20 @@ def bead(
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
+
+
+@app.get("/api/angled-sphere")
+def bead(
+    radius: Annotated[float, Query(gt=0)],
+    hole_radius: Annotated[float, Query(gt=0)],
+    angle: Annotated[float, Query(ge=0, lt=90)],
+    cutoutQuery: Annotated[bool, Query()]
+):
+    result = beadGen.generateAngledBead(
+        radius=radius,
+        hole_radius=hole_radius,
+        angle=angle,
+        cutout_query=cutoutQuery
+    )
+    filename = result[0]
+    return FileResponse(path=directory + filename, filename=filename)

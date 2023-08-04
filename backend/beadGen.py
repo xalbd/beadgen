@@ -106,3 +106,39 @@ def generateSphere(radius: float, hole_radius: float, effective_angle: float):
     )
     sphere -= remove
     return (tools.exportSTL(sphere, "sphere-bead", 1), sphere)
+
+
+
+def generateAngledBead(radius, hole_radius, angles, cutout_query):
+    ratio = 0.95
+    sphere = Sphere(radius)
+    bottom_cut = Pos(0,0,-radius)*Sphere(radius)
+    bottom_hole = Cylinder(hole_radius, radius, align=(Align.CENTER,Align.CENTER,Align.MAX))
+
+    outer_bead = sphere
+
+    inner_sphere = Sphere(radius*ratio)
+    inner_bottom_cut = Pos(0,0,radius*(1-ratio))*bottom_cut
+
+    inner_bead = inner_sphere
+    for theta in angles:
+        top_hole = Pos(0,0,-radius/15)*Cylinder(hole_radius, radius*2, align=(Align.CENTER,Align.CENTER,Align.MIN))
+        inner_top_hole = Pos(0,0,-radius/15)*Cylinder(hole_radius + radius*(1-ratio), radius*2, align=(Align.CENTER,Align.CENTER,Align.MIN))
+        axis = Axis((0,0,0), (1,0,0))
+        top_hole = top_hole.rotate(axis, theta)
+        inner_top_hole = inner_top_hole.rotate(axis, theta)
+        outer_bead -= top_hole
+        if(cutout_query):
+            inner_bead -= inner_top_hole
+
+    if(cutout_query):
+        outer_bead -= bottom_cut  
+        inner_bead -= inner_bottom_cut
+
+    bead = outer_bead - inner_bead
+    bead -= bottom_hole
+    drain_hole = Pos(0,0,-radius/8)*Cylinder(radius/8, radius*2, align=(Align.CENTER, Align.CENTER, Align.CENTER))
+    bead -= Pos(radius*2/3,0,0)*drain_hole
+    bead -= Pos(-radius*2/3,0,0)*drain_hole
+    
+    return (tools.exportSTL(bead, "angled-spherical-bead", 1), bead)
