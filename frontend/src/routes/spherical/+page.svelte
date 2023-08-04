@@ -13,12 +13,19 @@
   let loader = new STLLoader();
   let scene = new THREE.Scene();
 
+  let bead_type = "normal";
   let radius = 5;
   let hole_radius = 0.5;
   let effective_angle = 30;
 
   let api_path: string;
-  $: api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}`;
+  $: {
+    if (bead_type == "simple") {
+      api_path = `http://localhost:8000/api/simple_sphere?radius=${radius}&hole_radius=${hole_radius}`;
+    } else if (bead_type == "normal") {
+      api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}`;
+    }
+  }
 
   onMount(() => {
     loadSTL(loader, scene, material, api_path);
@@ -33,6 +40,12 @@
 
 <div class="flex flex-row h-screen">
   <div class="flex flex-col">
+    <label for="result-type"> Bead Type </label>
+    <select name="result-type" bind:value={bead_type}>
+      <option value="simple">Simple</option>
+      <option value="normal">Normal</option>
+    </select>
+
     <label for="radius-input"> Radius </label>
     <input
       name="radius-input"
@@ -49,13 +62,15 @@
       bind:value={hole_radius}
     />
 
-    <label for="effective-angle-input"> Effective Angle </label>
-    <input
-      name="effective-angle-input"
-      class="h-10 bg-purple-100"
-      type="number"
-      bind:value={effective_angle}
-    />
+    {#if !bead_type || bead_type == "normal"}
+      <label for="effective-angle-input"> Effective Angle </label>
+      <input
+        name="effective-angle-input"
+        class="h-10 bg-purple-100"
+        type="number"
+        bind:value={effective_angle}
+      />
+    {/if}
 
     <button
       class="h-10 rounded-full bg-green-500"

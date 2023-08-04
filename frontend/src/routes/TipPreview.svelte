@@ -13,16 +13,16 @@
   let loader = new STLLoader();
   let scene = new THREE.Scene();
 
-  let tip_type = "Cone";
+  let tip_type = "cone";
   let radius = 2;
   let hole_radius = 0.5;
   let tip_angle = 90;
 
   let api_path: string;
   $: {
-    if (tip_type == "Cone") {
+    if (tip_type == "cone") {
       api_path = `http://localhost:8000/api/cone_tip?radius=${radius}&hole_radius=${hole_radius}&tip_angle=${tip_angle}`;
-    } else if (tip_type == "Sphere") {
+    } else if (tip_type == "sphere") {
       api_path = `http://localhost:8000/api/sphere_tip?radius=${radius}&hole_radius=${hole_radius}`;
     }
   }
@@ -37,8 +37,8 @@
   <div class="flex flex-col">
     <label for="tip-type"> Tip Type </label>
     <select name="tip-type" bind:value={tip_type}>
-      <option value="Cone">Cone</option>
-      <option value="Sphere">Sphere</option>
+      <option value="cone">Cone</option>
+      <option value="sphere">Sphere</option>
     </select>
 
     <label for="radius-input"> Radius </label>
