@@ -25,7 +25,7 @@
     } else if (tip_type == "sphere") {
       api_path = `http://localhost:8000/api/sphere_tip?radius=${radius}&hole_radius=${hole_radius}`;
     }
-    console.log(api_path)
+    console.log(api_path);
   }
 
   onMount(() => {

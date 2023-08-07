@@ -48,7 +48,7 @@
       bind:value={length}
     />
 
-    {#if !result_type || result_type == "Line"}
+    {#if !result_type || result_type == "line"}
       <label for="segments-input"> Segments </label>
       <input
         name="length-input"
