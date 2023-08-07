@@ -175,3 +175,5 @@ def generateAngledBead(radius, hole_radius, angles, cutout_query):
     bead -= Pos(-radius * 2 / 3, 0, 0) * drain_hole
 
     return (tools.exportSTL(bead, "angled-spherical-bead", 1), bead)
+
+
