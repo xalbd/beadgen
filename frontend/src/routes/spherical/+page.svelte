@@ -17,6 +17,7 @@
   let radius = 5;
   let hole_radius = 0.5;
   let effective_angle = 30;
+  let angles = [45, 0];
   let copies = 1;
 
   let api_path: string;
@@ -25,6 +26,8 @@
       api_path = `http://localhost:8000/api/simple_sphere?radius=${radius}&hole_radius=${hole_radius}&copies=${copies}`;
     } else if (bead_type == "normal") {
       api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}&copies=${copies}`;
+    } else if (bead_type == "multi") {
+      api_path = `http://localhost:8000/api/angled-sphere?radius=${radius}&hole_radius=${hole_radius}&angles=${angles}`;
     }
   }
 
@@ -45,6 +48,7 @@
     <select name="result-type" bind:value={bead_type}>
       <option value="simple">Simple</option>
       <option value="normal">Normal</option>
+      <option value="multi">Multi Angle</option>
     </select>
 
     <label for="radius-input"> Radius </label>
@@ -70,6 +74,16 @@
         class="h-10 bg-purple-100"
         type="number"
         bind:value={effective_angle}
+      />
+    {/if}
+
+    {#if !bead_type || bead_type == "multi"}
+      <label for="angle-input"> Angles </label>
+      <input
+        name="angle-input"
+        class="h-10 bg-purple-100"
+        type="number"
+        bind:value={angles}
       />
     {/if}
 
