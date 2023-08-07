@@ -107,11 +107,9 @@ def bead(
 def bead(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
+    copies: Annotated[int, Query(gt=0)],
 ):
-    result = beadGen.generateSimpleSphere(
-        radius=radius,
-        hole_radius=hole_radius,
-    )
+    result = beadGen.generateSimpleSphere(radius=radius, hole_radius=hole_radius, copies=copies)
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 
@@ -121,11 +119,10 @@ def bead(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     effective_angle: Annotated[float, Query(ge=0, lt=90)],
+    copies: Annotated[int, Query(gt=0)],
 ):
     result = beadGen.generateSphere(
-        radius=radius,
-        hole_radius=hole_radius,
-        effective_angle=effective_angle,
+        radius=radius, hole_radius=hole_radius, effective_angle=effective_angle, copies=copies
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
@@ -136,13 +133,10 @@ def bead(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     angle: Annotated[float, Query(ge=0, lt=90)],
-    cutoutQuery: Annotated[bool, Query()]
+    cutoutQuery: Annotated[bool, Query()],
 ):
     result = beadGen.generateAngledBead(
-        radius=radius,
-        hole_radius=hole_radius,
-        angle=angle,
-        cutout_query=cutoutQuery
+        radius=radius, hole_radius=hole_radius, angle=angle, cutout_query=cutoutQuery
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)

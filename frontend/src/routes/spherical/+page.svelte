@@ -17,13 +17,14 @@
   let radius = 5;
   let hole_radius = 0.5;
   let effective_angle = 30;
+  let copies = 1;
 
   let api_path: string;
   $: {
     if (bead_type == "simple") {
-      api_path = `http://localhost:8000/api/simple_sphere?radius=${radius}&hole_radius=${hole_radius}`;
+      api_path = `http://localhost:8000/api/simple_sphere?radius=${radius}&hole_radius=${hole_radius}&copies=${copies}`;
     } else if (bead_type == "normal") {
-      api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}`;
+      api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}&copies=${copies}`;
     }
   }
 
@@ -71,6 +72,14 @@
         bind:value={effective_angle}
       />
     {/if}
+
+    <label for="copies-input"> Copies </label>
+    <input
+      name="copies-input"
+      class="h-10 bg-purple-200"
+      type="number"
+      bind:value={copies}
+    />
 
     <button
       class="h-10 rounded-full bg-green-500"
