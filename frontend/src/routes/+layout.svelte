@@ -2,7 +2,7 @@
   import "../app.css";
 </script>
 
-<nav>
+<nav class="mb-2">
   <a href="/">standard</a>
   <a href="/double">double-sided</a>
   <a href="/spherical">spheres</a>
