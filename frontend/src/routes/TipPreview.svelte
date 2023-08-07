@@ -58,7 +58,7 @@
       bind:value={hole_radius}
     />
 
-    {#if !tip_type || tip_type == "Cone"}
+    {#if !tip_type || tip_type == "cone"}
       <label for="tip-angle-input"> Tip Angle </label>
       <input
         name="tip-angle-input"
