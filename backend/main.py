@@ -7,6 +7,7 @@ import time
 import pathlib
 from build123d import *
 import beadGen
+import structureGen
 
 app = FastAPI()
 
@@ -137,6 +138,19 @@ def bead(
 ):
     result = beadGen.generateAngledBead(
         radius=radius, hole_radius=hole_radius, angles=angles, cutout_query=False
+    )
+    filename = result[0]
+    return FileResponse(path=directory + filename, filename=filename)
+
+
+@app.get("/api/square-struct")
+def square(
+    side_length: Annotated[float, Query(gt=0)],
+    beads_per_side: Annotated[int, Query(gt=0)],
+    hole_radius: Annotated[float, Query()],
+):
+    result = structureGen.squareStructGen(
+        side_length=side_length, beads_per_side=beads_per_side, hole_radius=hole_radius
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
