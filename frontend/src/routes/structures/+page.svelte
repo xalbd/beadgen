@@ -13,7 +13,7 @@
     let loader = new STLLoader();
     let scene = new THREE.Scene();
   
-    let struct_type = "square";
+    let struct_type = "triangle";
     let corner_type = "large-sphere";
     let side_length = 50;
     let beads_per_side = 5;
@@ -23,6 +23,8 @@
     $: {
       if (struct_type == "square") {
         api_path = `http://localhost:8000/api/square-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
+      } else if (struct_type == "triangle") {
+        api_path = `http://localhost:8000/api/triangle-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
       } 
     }
   
@@ -42,6 +44,7 @@
       <label for="result-type"> Structure Type </label>
       <select name="result-type" bind:value={struct_type}>
         <option value="square">Square</option>
+        <option value="triangle">Triangle</option>
       </select>
 
       <label for="corner-type"> Corner Type </label>
