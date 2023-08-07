@@ -35,7 +35,7 @@
 </script>
 
 <div class="flex flex-row flex-1">
-  <div class="flex flex-col">
+  <div class="flex flex-col w-1/4">
     <label for="tip-type"> Tip Type </label>
     <select name="tip-type" bind:value={tip_type}>
       <option value="cone">Cone</option>

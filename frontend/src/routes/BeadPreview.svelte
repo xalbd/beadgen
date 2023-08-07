@@ -33,7 +33,7 @@
 </script>
 
 <div class="flex flex-row flex-1">
-  <div class="flex flex-col">
+  <div class="flex flex-col w-1/4">
     <label for="result-type"> Result Type </label>
     <select name="result-type" bind:value={result_type}>
       <option value="bead">Bead</option>

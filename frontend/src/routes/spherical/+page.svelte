@@ -13,10 +13,11 @@
   let loader = new STLLoader();
   let scene = new THREE.Scene();
 
-  let bead_type = "normal";
+  let bead_type = "multi";
   let radius = 5;
   let hole_radius = 0.5;
   let effective_angle = 30;
+  let current_angle_input = 20;
   let angles = [45, 0];
   let copies = 1;
 
@@ -43,7 +44,7 @@
 </svelte:head>
 
 <div class="flex flex-row h-screen">
-  <div class="flex flex-col">
+  <div class="flex flex-col w-1/5">
     <label for="result-type"> Bead Type </label>
     <select name="result-type" bind:value={bead_type}>
       <option value="simple">Simple</option>
@@ -78,13 +79,37 @@
     {/if}
 
     {#if !bead_type || bead_type == "multi"}
-      <label for="angle-input"> Angles </label>
-      <input
-        name="angle-input"
-        class="h-10 bg-purple-100"
-        type="number"
-        bind:value={angles}
-      />
+      <label for="angle-input"> Angle Editor </label>
+      <div class="flex flex-row">
+        <input
+          name="angle-input"
+          class="flex-1 h-10 min-w-0 bg-purple-100"
+          type="number"
+          bind:value={current_angle_input}
+        />
+        <button
+          class="h-10 rounded-full w-1/4 bg-rose-300"
+          on:click={() => {
+            if (!angles.includes(current_angle_input)) {
+              angles.push(current_angle_input);
+              angles = angles;
+            }
+          }}
+        >
+          Add
+        </button>
+        <button
+          class="h-10 rounded-full w-1/4 bg-rose-500"
+          on:click={() => {
+            angles = [0];
+          }}
+        >
+          Reset
+        </button>
+      </div>
+      <p>
+        Current Angles: {angles}
+      </p>
     {/if}
 
     <label for="copies-input"> Copies </label>
