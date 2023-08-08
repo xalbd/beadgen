@@ -79,7 +79,7 @@ def bead(
 
 
 @app.get("/api/bead_line")
-def bead(
+def bead_line(
     segments: Annotated[int, Query(gt=0)],
     length: Annotated[float, Query(gt=0)],
 ):
@@ -92,7 +92,7 @@ def bead(
 
 
 @app.get("/api/bead_junction")
-def bead(
+def bead_junction(
     length: Annotated[float, Query(gt=0)],
 ):
     if not app.current_tip:
@@ -103,9 +103,19 @@ def bead(
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 
+@app.get("/api/double_sided")
+def double_sided(radius: Annotated[float, Query(gt=0)], 
+                 hole_radius: Annotated[float, Query(gt=0)],
+                 top: Annotated[str, Query()],
+                 bottom: Annotated[str, Query()],
+                 top_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
+                 bottom_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
+                 top_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],
+                 bottom_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],):
+
 
 @app.get("/api/simple_sphere")
-def bead(
+def simple_sphere(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     copies: Annotated[int, Query(gt=0)],
@@ -116,7 +126,7 @@ def bead(
 
 
 @app.get("/api/sphere")
-def bead(
+def sphere(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     effective_angle: Annotated[float, Query(ge=0, lt=90)],
@@ -130,7 +140,7 @@ def bead(
 
 
 @app.get("/api/angled-sphere")
-def bead(
+def angled_sphere(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     angles: Annotated[list[float], Query()],
@@ -157,7 +167,7 @@ def square(
 
 
 @app.get("/api/triangle-struct")
-def square(
+def triangle(
     side_length: Annotated[float, Query(gt=0)],
     beads_per_side: Annotated[int, Query(gt=0)],
     hole_radius: Annotated[float, Query()],

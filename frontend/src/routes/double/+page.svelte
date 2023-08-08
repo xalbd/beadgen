@@ -20,6 +20,9 @@
   let hole_radius = 0.5;
   let top_cone_tip_angle = 90;
   let bottom_cone_tip_angle = 90;
+  let top_sphere_angles = [0];
+  let bottom_sphere_angles = [0];
+  let current_angle_input = 45;
   let copies = 1;
 
   let api_path: string;
