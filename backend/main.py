@@ -91,27 +91,36 @@ def bead_line(
     return FileResponse(path=directory + filename, filename=filename)
 
 
-@app.get("/api/bead_junction")
-def bead_junction(
+@app.get("/api/double_sided")
+def double_sided(
+    radius: Annotated[float, Query(gt=0)],
+    hole_radius: Annotated[float, Query(gt=0)],
     length: Annotated[float, Query(gt=0)],
+    top: Annotated[str, Query()],
+    bottom: Annotated[str, Query()],
+    top_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
+    bottom_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
+    top_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],
+    bottom_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],
 ):
-    if not app.current_tip:
-        print("not found")
-        return
-    result = beadGen.generateBead(cut=app.current_tip, length=length)
-    app.current_bead = result[1]
+    args = {
+        "radius": radius,
+        "hole_radius": hole_radius,
+        "length": length,
+    }
+
+    if top == "cone":
+        args["top_tip_angle"] = top_tip_angle
+    elif top == "sphere":
+        args["top_sphere_angles"] = top_sphere_angles
+    if bottom == "cone":
+        args["bottom_tip_angle"] = bottom_tip_angle
+    elif bottom == "sphere":
+        args["bottom_sphere_angles"] = bottom_sphere_angles
+
+    result = beadGen.generateDouble(**args)
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
-
-@app.get("/api/double_sided")
-def double_sided(radius: Annotated[float, Query(gt=0)], 
-                 hole_radius: Annotated[float, Query(gt=0)],
-                 top: Annotated[str, Query()],
-                 bottom: Annotated[str, Query()],
-                 top_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
-                 bottom_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
-                 top_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],
-                 bottom_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],):
 
 
 @app.get("/api/simple_sphere")
