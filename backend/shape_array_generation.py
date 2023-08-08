@@ -131,6 +131,20 @@ def square_triangle_chain(total_length, total_beads):
     return bead_array
 
 
+def polygon_chain(num_sides, side_length, beads_per_side):
+    bead_array = []
+    angle = (num_sides-2)*180 / num_sides
+    bead_length = side_length / beads_per_side
+
+    for side in range(0,num_sides):
+        for bead in range(0, beads_per_side):
+            if(bead == beads_per_side-1):
+                bead_array += [(bead_length, angle)]
+            else:
+                bead_array += [(bead_length, 0)]
+    
+    return bead_array
+
 
 side_length = 40
 beads_per_side = 4
@@ -143,3 +157,4 @@ total_beads = 12
 #print(new_triangle_bead_chain(side_length, beads_per_side))
 #print(new_square_bead_chain(side_length, beads_per_side))
 #print(square_triangle_chain(total_length, total_beads))
+print(polygon_chain(5, 30, 3))

@@ -185,3 +185,17 @@ def triangle(
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
+
+
+@app.get("/api/polygon-struct")
+def square(
+    num_sides: Annotated[int, Query(gt=0)],
+    side_length: Annotated[float, Query(gt=0)],
+    beads_per_side: Annotated[int, Query(gt=0)],
+    hole_radius: Annotated[float, Query()],
+):
+    result = structureGen.polygonStructGen(
+        num_sides=num_sides, side_length=side_length, beads_per_side=beads_per_side, hole_radius=hole_radius
+    )
+    filename = result[0]
+    return FileResponse(path=directory + filename, filename=filename)
