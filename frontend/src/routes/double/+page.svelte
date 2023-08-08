@@ -18,21 +18,26 @@
   let top_type = "sphere";
   let radius = 5;
   let hole_radius = 0.5;
+  let length = 5;
   let top_cone_tip_angle = 90;
   let bottom_cone_tip_angle = 90;
   let top_sphere_angles = [0];
   let bottom_sphere_angles = [0];
-  let current_angle_input = 45;
-  let copies = 1;
+  let top_current_angle_input = 45;
+  let bottom_current_angle_input = 45;
 
   let api_path: string;
   $: {
-    api_path = `http://localhost:8000/api/double_sided?radius=${radius}&hole_radius=${hole_radius}&top=${top_type}&bottom=${bottom_type}`;
+    api_path = `http://localhost:8000/api/double_sided?radius=${radius}&hole_radius=${hole_radius}&length=${length}&top=${top_type}&bottom=${bottom_type}`;
     if (top_type == "cone") {
-      api_path += `&top_angle=${top_cone_tip_angle}`;
+      api_path += `&top_tip_angle=${top_cone_tip_angle}`;
+    } else {
+      api_path += `&top_sphere_angles=${top_sphere_angles}`;
     }
-    if (bottom_type == "cone") {
-      api_path += `&bottom_angle=${bottom_cone_tip_angle}`;
+    if (top_type == "cone") {
+      api_path += `&bottom_tip_angle=${bottom_cone_tip_angle}`;
+    } else {
+      api_path += `&bottom_sphere_angles=${bottom_sphere_angles}`;
     }
   }
 
@@ -71,46 +76,117 @@
       bind:value={hole_radius}
     />
 
-    <label for="top-type"> Top Interface </label>
-    <select name="top-type" bind:value={top_type}>
-      <option value="cone">Cone</option>
-      <option value="sphere">Sphere</option>
-    </select>
-
-    {#if top_type == "cone"}
-      <label for="top-tip-angle-input"> Top Cone Tip Angle </label>
-      <input
-        name="top-tip-angle-input"
-        class="h-10 bg-purple-100"
-        type="number"
-        bind:value={top_cone_tip_angle}
-      />
-    {/if}
-
-    <label for="bottom-type"> Bottom Interface </label>
-    <select name="bottom-type" bind:value={bottom_type}>
-      <option value="cone">Cone</option>
-      <option value="sphere">Sphere</option>
-    </select>
-
-    {#if bottom_type == "cone"}
-      <label for="bottom-tip-angle-input"> Bottom Cone Tip Angle </label>
-      <input
-        name="top-tip-angle-input"
-        class="h-10 bg-purple-100"
-        type="number"
-        bind:value={bottom_cone_tip_angle}
-      />
-    {/if}
-
-    <label for="copies-input"> Copies </label>
+    <label for="length-input"> Length </label>
     <input
-      name="copies-input"
+      name="length-input"
       class="h-10 bg-purple-200"
       type="number"
-      bind:value={copies}
+      bind:value={length}
     />
 
+    <div class="mt-3 outline-1 outline flex-col flex bg-red-200">
+      <label for="top-type"> Top Interface </label>
+      <select name="top-type" bind:value={top_type}>
+        <option value="cone">Cone</option>
+        <option value="sphere">Sphere</option>
+      </select>
+
+      {#if top_type == "cone"}
+        <label for="top-tip-angle-input"> Tip Angle </label>
+        <input
+          name="top-tip-angle-input"
+          class="h-10 bg-purple-100"
+          type="number"
+          bind:value={top_cone_tip_angle}
+        />
+      {/if}
+
+      {#if top_type == "sphere"}
+        <label for="angle-input"> Angle Editor </label>
+        <div class="flex flex-row">
+          <input
+            name="angle-input"
+            class="flex-1 h-10 min-w-0 bg-purple-100"
+            type="number"
+            bind:value={top_current_angle_input}
+          />
+          <button
+            class="h-10 rounded-full w-1/4 bg-rose-300"
+            on:click={() => {
+              if (!top_sphere_angles.includes(top_current_angle_input)) {
+                top_sphere_angles.push(top_current_angle_input);
+                top_sphere_angles = top_sphere_angles;
+              }
+            }}
+          >
+            Add
+          </button>
+          <button
+            class="h-10 rounded-full w-1/4 bg-rose-500"
+            on:click={() => {
+              top_sphere_angles = [0];
+            }}
+          >
+            Reset
+          </button>
+        </div>
+        <p>
+          Current Angles: {top_sphere_angles}
+        </p>
+      {/if}
+    </div>
+
+    <div class="my-3 outline-1 outline flex-col flex bg-orange-100">
+      <label for="bottom-type"> Bottom Interface </label>
+      <select name="bottom-type" bind:value={bottom_type}>
+        <option value="cone">Cone</option>
+        <option value="sphere">Sphere</option>
+      </select>
+
+      {#if bottom_type == "cone"}
+        <label for="bottom-tip-angle-input"> Tip Angle </label>
+        <input
+          name="top-tip-angle-input"
+          class="h-10 bg-purple-100"
+          type="number"
+          bind:value={bottom_cone_tip_angle}
+        />
+      {/if}
+
+      {#if bottom_type == "sphere"}
+        <label for="angle-input"> Angle Editor </label>
+        <div class="flex flex-row">
+          <input
+            name="angle-input"
+            class="flex-1 h-10 min-w-0 bg-purple-100"
+            type="number"
+            bind:value={bottom_current_angle_input}
+          />
+          <button
+            class="h-10 rounded-full w-1/4 bg-rose-300"
+            on:click={() => {
+              if (!bottom_sphere_angles.includes(bottom_current_angle_input)) {
+                bottom_sphere_angles.push(bottom_current_angle_input);
+                bottom_sphere_angles = bottom_sphere_angles;
+              }
+            }}
+          >
+            Add
+          </button>
+          <button
+            class="h-10 rounded-full w-1/4 bg-rose-500"
+            on:click={() => {
+              bottom_sphere_angles = [0];
+            }}
+          >
+            Reset
+          </button>
+        </div>
+        <p>
+          Current Angles: {bottom_sphere_angles}
+        </p>
+      {/if}
+    </div>
     <button
       class="h-10 rounded-full bg-green-500"
       on:click={() => {

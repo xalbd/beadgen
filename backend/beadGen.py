@@ -89,10 +89,10 @@ def generateDouble(
     radius: float,
     hole_radius: float,
     length: float,
-    top_tip_angle: float | None,
-    bottom_tip_angle: float | None,
-    top_sphere_angles: list[float] | None,
-    bottom_sphere_angles: list[float] | None,
+    top_tip_angle: float | None = None,
+    bottom_tip_angle: float | None = None,
+    top_sphere_angles: list[float] | None = None,
+    bottom_sphere_angles: list[float] | None = None,
 ):
     if not (
         hole_radius < radius

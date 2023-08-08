@@ -98,10 +98,10 @@ def double_sided(
     length: Annotated[float, Query(gt=0)],
     top: Annotated[str, Query()],
     bottom: Annotated[str, Query()],
-    top_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
-    bottom_tip_angle: Annotated[list[float] | None, Query(gt=0, lt=180)] = 90,
-    top_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],
-    bottom_sphere_angles: Annotated[list[float] | None, Query(gt=0, lt=180)] = [90],
+    top_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = 90,
+    bottom_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = 90,
+    top_sphere_angles: Annotated[list[float] | None, Query()] = [0],
+    bottom_sphere_angles: Annotated[list[float] | None, Query()] = [0],
 ):
     args = {
         "radius": radius,
