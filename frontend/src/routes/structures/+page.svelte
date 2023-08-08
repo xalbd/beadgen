@@ -15,10 +15,10 @@
   
     let struct_type = "polygon";
     let corner_type = "large-sphere";
-    let side_length = 50;
-    let beads_per_side = 5;
+    let side_length = 30;
+    let beads_per_side = 3;
     let hole_radius = 1;
-    let num_sides = 5;
+    let num_sides = 3;
   
     let api_path: string;
     $: {
@@ -27,7 +27,7 @@
       } else if (struct_type == "triangle") {
         api_path = `http://localhost:8000/api/triangle-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
       } else if (struct_type == "polygon") {
-        api_path = `http://localhost:8000/api/polygon-struct?num_sides=${side_length}&side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
+        api_path = `http://localhost:8000/api/polygon-struct?num_sides=${num_sides}&side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
       } 
     }
   

@@ -188,11 +188,11 @@ def triangle(
 
 
 @app.get("/api/polygon-struct")
-def square(
-    num_sides: Annotated[int, Query(gt=0)],
+def polygon(
+    num_sides: Annotated[int, Query(gt=2)],
     side_length: Annotated[float, Query(gt=0)],
-    beads_per_side: Annotated[int, Query(gt=0)],
-    hole_radius: Annotated[float, Query()],
+    beads_per_side: Annotated[int, Query(gt=1)],
+    hole_radius: Annotated[float, Query(gt=0)],
 ):
     result = structureGen.polygonStructGen(
         num_sides=num_sides, side_length=side_length, beads_per_side=beads_per_side, hole_radius=hole_radius
