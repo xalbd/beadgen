@@ -96,12 +96,10 @@ def double_sided(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     length: Annotated[float, Query(gt=0)],
-    top: Annotated[str, Query()],
-    bottom: Annotated[str, Query()],
-    top_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = 90,
-    bottom_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = 90,
-    top_sphere_angles: Annotated[list[float] | None, Query()] = [0],
-    bottom_sphere_angles: Annotated[list[float] | None, Query()] = [0],
+    top_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = None,
+    bottom_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = None,
+    top_sphere_angles: Annotated[list[float] | None, Query()] = None,
+    bottom_sphere_angles: Annotated[list[float] | None, Query()] = None,
 ):
     args = {
         "radius": radius,
@@ -109,14 +107,15 @@ def double_sided(
         "length": length,
     }
 
-    if top == "cone":
-        args["top_tip_angle"] = top_tip_angle
-    elif top == "sphere":
-        args["top_sphere_angles"] = top_sphere_angles
-    if bottom == "cone":
-        args["bottom_tip_angle"] = bottom_tip_angle
-    elif bottom == "sphere":
-        args["bottom_sphere_angles"] = bottom_sphere_angles
+    cur_args = {
+        "top_tip_angle": top_tip_angle,
+        "bottom_tip_angle": bottom_tip_angle,
+        "top_sphere_angles": top_sphere_angles,
+        "bottom_sphere_angles": bottom_sphere_angles,
+    }
+    for k, v in cur_args.items():
+        if v:
+            args[k] = v
 
     result = beadGen.generateDouble(**args)
     filename = result[0]

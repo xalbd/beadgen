@@ -28,16 +28,20 @@
 
   let api_path: string;
   $: {
-    api_path = `http://localhost:8000/api/double_sided?radius=${radius}&hole_radius=${hole_radius}&length=${length}&top=${top_type}&bottom=${bottom_type}`;
+    api_path = `http://localhost:8000/api/double_sided?radius=${radius}&hole_radius=${hole_radius}&length=${length}`;
     if (top_type == "cone") {
       api_path += `&top_tip_angle=${top_cone_tip_angle}`;
     } else {
-      api_path += `&top_sphere_angles=${top_sphere_angles}`;
+      top_sphere_angles.forEach((angle) => {
+        api_path += `&top_sphere_angles=${angle}`;
+      });
     }
-    if (top_type == "cone") {
+    if (bottom_type == "cone") {
       api_path += `&bottom_tip_angle=${bottom_cone_tip_angle}`;
     } else {
-      api_path += `&bottom_sphere_angles=${bottom_sphere_angles}`;
+      bottom_sphere_angles.forEach((angle) => {
+        api_path += `&bottom_sphere_angles=${angle}`;
+      });
     }
   }
 
