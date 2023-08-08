@@ -71,7 +71,7 @@
       bind:value={hole_radius}
     />
 
-    {#if !bead_type || bead_type == "normal"}
+    {#if bead_type == "normal"}
       <label for="effective-angle-input"> Effective Angle </label>
       <input
         name="effective-angle-input"
@@ -81,7 +81,7 @@
       />
     {/if}
 
-    {#if !bead_type || bead_type == "multi"}
+    {#if bead_type == "multi"}
       <label for="angle-input"> Angle Editor </label>
       <div class="flex flex-row">
         <input

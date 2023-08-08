@@ -85,6 +85,25 @@ def generateBeadLine(
     return (tools.exportSTL(combined, "bead-line", 1), combined)
 
 
+def generateDouble(
+    radius: float,
+    hole_radius: float,
+    length: float,
+    top_tip_angle: float | None = None,
+    bottom_tip_angle: float | None = None,
+    top_sphere_angles: list[float] | None = None,
+    bottom_sphere_angles: list[float] | None = None,
+):
+    if not (
+        hole_radius < radius
+        and (top_tip_angle or top_sphere_angles)
+        and (bottom_tip_angle or bottom_sphere_angles)
+    ):
+        print("parameters missing or out of range")
+        return
+    return
+
+
 def generateSimpleSphere(radius: float, hole_radius: float, copies: int):
     if not (hole_radius < radius):
         print("parameters out of range")
@@ -175,5 +194,3 @@ def generateAngledBead(radius, hole_radius, angles, cutout_query):
     bead -= Pos(-radius * 2 / 3, 0, 0) * drain_hole
 
     return (tools.exportSTL(bead, "angled-spherical-bead", 1), bead)
-
-
