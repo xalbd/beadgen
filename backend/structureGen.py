@@ -93,7 +93,7 @@ def polygonStructGen(num_sides, side_length, beads_per_side, hole_radius, corner
                 else:
                     new_bead = tempBeadGen.cylinderBead(0, 1, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
             elif(bead[1] != 0):
-                new_bead = beadGen.generateAngledBead(bead[0]*(abs(math.sin(math.radians(bead[1])))), hole_radius, [0, bead[1]], cutout_query=False)[1]
+                new_bead = beadGen.generateAngledBead(bead[0]/2/(abs(math.sin(math.radians((180-bead[1])/2)))), hole_radius, [0, bead[1]], cutout_query=False)[1]
             else:
                 if(bead_array[i+1][1] != 0 and bead_array[i-1][1] != 0):
                     new_bead = tempBeadGen.junctionBead(1, 1, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
