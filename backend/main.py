@@ -99,7 +99,6 @@ def double_sided(
     top_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = None,
     bottom_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = None,
     top_sphere_angles: Annotated[list[float] | None, Query()] = None,
-    bottom_sphere_angles: Annotated[list[float] | None, Query()] = None,
 ):
     args = {
         "radius": radius,
@@ -111,7 +110,6 @@ def double_sided(
         "top_tip_angle": top_tip_angle,
         "bottom_tip_angle": bottom_tip_angle,
         "top_sphere_angles": top_sphere_angles,
-        "bottom_sphere_angles": bottom_sphere_angles,
     }
     for k, v in cur_args.items():
         if v:
@@ -196,7 +194,10 @@ def polygon(
     hole_radius: Annotated[float, Query(gt=0)],
 ):
     result = structureGen.polygonStructGen(
-        num_sides=num_sides, side_length=side_length, beads_per_side=beads_per_side, hole_radius=hole_radius
+        num_sides=num_sides,
+        side_length=side_length,
+        beads_per_side=beads_per_side,
+        hole_radius=hole_radius,
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
