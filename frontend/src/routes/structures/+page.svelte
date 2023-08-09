@@ -3,6 +3,7 @@
   import * as THREE from "three";
   import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
   import { loadSTL, createViewer } from "$lib/STLViewer";
+  import DownloadButton from "$lib/DownloadButton.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xa345bf,
@@ -104,7 +105,7 @@
     />
 
     <button
-      class="h-10 rounded-full bg-green-500"
+      class="h-10 rounded-full bg-green-500 mt-2"
       on:click={() => {
         loadSTL(loader, scene, material, api_path);
       }}
@@ -112,14 +113,7 @@
       Update Generation
     </button>
 
-    <button
-      class="h-10 rounded-full bg-red-300"
-      on:click={() => {
-        window.location.href = api_path;
-      }}
-    >
-      Download Generation
-    </button>
+    <DownloadButton {api_path} />
   </div>
   <div class="relative flex-1 ml-2" id="struct-stl" />
 </div>
