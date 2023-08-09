@@ -11,23 +11,24 @@ def sphereTip(radius):
     return tip
 
 def cylinderBead(tipType, baseType, radius, height, hole_radius, cut_radius):
+    ratio = 0.88
     body = Cylinder(radius, height, align=(Align.CENTER, Align.CENTER, Align.MAX))
-    inner_body = Cylinder(radius*0.95, height, align=(Align.CENTER, Align.CENTER, Align.MAX))
+    inner_body = Cylinder(radius*ratio, height, align=(Align.CENTER, Align.CENTER, Align.MAX))
     if(tipType == 0):
         tip = coneTip(radius, radius)
-        inner_tip = coneTip(radius*0.95, radius*0.95)
+        inner_tip = coneTip(radius*ratio, radius*ratio)
     elif(tipType == 1):
         tip = sphereTip(radius)
-        inner_tip = sphereTip(radius*0.95)
+        inner_tip = sphereTip(radius*ratio)
     elif(tipType == 2):
         tip = Solid()
     
     if(baseType == 0):
         base = coneTip(radius, radius)
-        inner_base = Pos(0,0,radius*0.05)*base
+        inner_base = Pos(0,0,radius*(1-ratio))*base
     elif(baseType == 1):
         base = Pos(0,0,-(cut_radius**2 - radius**2)**0.5)*sphereTip(cut_radius)
-        inner_base = Pos(0,0,-(cut_radius**2 - radius**2)**0.5 - cut_radius*0.05 + radius*0.05)*sphereTip(cut_radius*1.05)
+        inner_base = Pos(0,0,-(cut_radius**2 - radius**2)**0.5 - cut_radius*(1-ratio) + radius*(1-ratio))*sphereTip(cut_radius*(2-ratio))
         if(radius == cut_radius):
             body -= Pos(0,0,-height*0.9)*Box(radius*2, radius*2, radius*2, align=(Align.CENTER, Align.CENTER, Align.MAX))
     elif(baseType == 2):
@@ -42,36 +43,38 @@ def cylinderBead(tipType, baseType, radius, height, hole_radius, cut_radius):
     inner_bead = Pos(0,0,-height/2)*inner_bead
 
     outer_bead -= Cylinder(hole_radius, height*5)
+    inner_bead -= Cylinder(hole_radius+radius*(1-ratio), height*5)
 
     bead = outer_bead - inner_bead
 
     hole = Cylinder(radius/4, radius, rotation=(0, -90, 0), align=(Align.MIN,Align.CENTER,Align.MIN))
-    bead -= Pos(-radius*0.92,0, radius*0.5)*hole
+    bead -= Pos(-radius*(ratio*0.7), 0, radius*0.5)*hole
 
     return bead
     
 
 def junctionBead(tipType, baseType, radius, height, hole_radius, cut_radius):
+    ratio = 0.88
     body = Cylinder(radius, height, align=(Align.CENTER, Align.CENTER, Align.MAX))
-    inner_body = Cylinder(radius*0.95, height, align=(Align.CENTER, Align.CENTER, Align.MAX))
+    inner_body = Cylinder(radius*ratio, height, align=(Align.CENTER, Align.CENTER, Align.MAX))
 
     if(tipType == 0):
         tip = coneTip(radius, radius).rotate(Axis.X, 180)
-        inner_tip = coneTip(radius*0.95, radius*0.95).rotate(Axis.X, 180)
+        inner_tip = coneTip(radius*ratio, radius*ratio).rotate(Axis.X, 180)
     elif(tipType == 1):
         tip = sphereTip(cut_radius).rotate(Axis.X, 180)
         tip = Pos(0,0,(cut_radius**2 - radius**2)**0.5)*tip
-        inner_tip = sphereTip(cut_radius*1.05).rotate(Axis.X, 180)
-        inner_tip = Pos(0,0,(cut_radius**2 - radius**2)**0.5 + cut_radius*0.05 - radius*0.05)*inner_tip
+        inner_tip = sphereTip(cut_radius*(2-ratio)).rotate(Axis.X, 180)
+        inner_tip = Pos(0,0,(cut_radius**2 - radius**2)**0.5 + cut_radius*(1-ratio) - radius*(1-ratio))*inner_tip
     elif(tipType == 2):
         tip = Solid()
     
     if(baseType == 0):
         base = coneTip(radius, radius)
-        inner_base = Pos(0,0,radius*0.05)*base
+        inner_base = Pos(0,0,radius*(1-ratio))*base
     elif(baseType == 1):
         base = Pos(0,0,-(cut_radius**2 - radius**2)**0.5)*sphereTip(cut_radius)
-        inner_base = Pos(0,0,-(cut_radius**2 - radius**2)**0.5 - cut_radius*0.05 + radius*0.05)*sphereTip(cut_radius*1.05)
+        inner_base = Pos(0,0,-(cut_radius**2 - radius**2)**0.5 - cut_radius*(1-ratio) + radius*(1-ratio))*sphereTip(cut_radius*(2-ratio))
         if(radius == cut_radius):
             body -= Pos(0,0,-height*0.9)*Box(radius*2, radius*2, radius*2, align=(Align.CENTER, Align.CENTER, Align.MAX))
     elif(baseType == 2):
@@ -86,10 +89,11 @@ def junctionBead(tipType, baseType, radius, height, hole_radius, cut_radius):
     inner_bead = Pos(0,0,-height/2)*inner_bead
 
     outer_bead -= Cylinder(hole_radius, height*5)
+    inner_bead -= Cylinder(hole_radius+radius*(1-ratio), height*5)
 
     bead = outer_bead - inner_bead
 
     hole = Cylinder(radius/4, radius, rotation=(0, -90, 0), align=(Align.MIN,Align.CENTER,Align.MIN))
-    bead -= Pos(-radius*0.92,0, radius*0.4)*hole
+    bead -= Pos(-radius*(ratio*0.8),0,0)*hole
 
     return bead

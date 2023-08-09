@@ -5,7 +5,7 @@ import tools
 import math
 
 
-def squareStructGen(side_length, beads_per_side, hole_radius):
+def squareStructGen(side_length, beads_per_side, hole_radius, corner_type):
     bead_array = shape_array_generation.new_square_bead_chain(side_length, beads_per_side)
     beads = []
 
