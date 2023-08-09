@@ -2,16 +2,19 @@
   import "../app.css";
 </script>
 
-<nav class="mb-2">
-  <a href="/">standard</a>
-  <a href="/double">double-sided</a>
-  <a href="/spherical">spheres</a>
-  <a href="/structures">structures</a>
-</nav>
-<slot />
+<div class="divide-y divide-solid divide-stone-600">
+  <div class="flex flex-row items-center justify-between">
+    <p class="text-xl font-semibold pl-2">Bead Generation</p>
+    <nav class="py-1 px-2 font-sans">
+      <a href="/" class="hover:text-blue-800 px-2">Standard</a>
+      <a href="/double" class="hover:text-blue-800 px-2">Complex</a>
+      <a href="/spherical" class="hover:text-blue-800 px-2">Spheres</a>
+      <a href="/structures" class="hover:text-blue-800 px-2">Structures</a>
+    </nav>
+  </div>
+
+  <slot />
+</div>
 
 <style>
-  a {
-    @apply m-2;
-  }
 </style>
