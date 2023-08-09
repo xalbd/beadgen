@@ -13,7 +13,7 @@
   let loader = new STLLoader();
   let scene = new THREE.Scene();
 
-  let struct_type = "polygon";
+  let struct_type = "triangle";
   let corner_type = "1";
   let side_length = 30;
   let beads_per_side = 3;
@@ -25,9 +25,9 @@
     if (struct_type == "square") {
       api_path = `http://localhost:8000/api/square-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}&corner_type=${corner_type}`;
     } else if (struct_type == "triangle") {
-      api_path = `http://localhost:8000/api/triangle-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
+      api_path = `http://localhost:8000/api/triangle-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}&corner_type=${corner_type}`;
     } else if (struct_type == "polygon") {
-      api_path = `http://localhost:8000/api/polygon-struct?num_sides=${num_sides}&side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
+      api_path = `http://localhost:8000/api/polygon-struct?num_sides=${num_sides}&side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}&corner_type=${corner_type}`;
     }
   }
 
