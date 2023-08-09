@@ -3,6 +3,7 @@
   import * as THREE from "three";
   import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
   import { loadSTL, createViewer } from "$lib/STLViewer";
+  import UpdateButton from "$lib/UpdateButton.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xff5533,
@@ -74,14 +75,7 @@
       />
     {/if}
 
-    <button
-      class="h-10 rounded-full bg-green-400 mt-2"
-      on:click={() => {
-        loadSTL(loader, scene, material, api_path);
-      }}
-    >
-      Update Tip
-    </button>
+    <UpdateButton {loader} {scene} {material} {api_path} />
   </div>
   <div class="relative flex-1 ml-2 max-h-full" id="tip-stl" />
 </div>

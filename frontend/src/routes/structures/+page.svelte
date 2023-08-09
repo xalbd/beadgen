@@ -4,6 +4,7 @@
   import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
   import { loadSTL, createViewer } from "$lib/STLViewer";
   import DownloadButton from "$lib/DownloadButton.svelte";
+  import UpdateButton from "$lib/UpdateButton.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xa345bf,
@@ -104,15 +105,7 @@
       bind:value={hole_radius}
     />
 
-    <button
-      class="h-10 rounded-full bg-green-500 mt-2"
-      on:click={() => {
-        loadSTL(loader, scene, material, api_path);
-      }}
-    >
-      Update Generation
-    </button>
-
+    <UpdateButton {loader} {scene} {material} {api_path} />
     <DownloadButton {api_path} />
   </div>
   <div class="relative flex-1 ml-2" id="struct-stl" />
