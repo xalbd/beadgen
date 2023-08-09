@@ -22,9 +22,7 @@
   let top_cone_tip_angle = 90;
   let bottom_cone_tip_angle = 90;
   let top_sphere_angles = [0];
-  let bottom_sphere_angles = [0];
   let top_current_angle_input = 45;
-  let bottom_current_angle_input = 45;
 
   let api_path: string;
   $: {
@@ -38,10 +36,6 @@
     }
     if (bottom_type == "cone") {
       api_path += `&bottom_tip_angle=${bottom_cone_tip_angle}`;
-    } else {
-      bottom_sphere_angles.forEach((angle) => {
-        api_path += `&bottom_sphere_angles=${angle}`;
-      });
     }
   }
 
@@ -155,40 +149,6 @@
           type="number"
           bind:value={bottom_cone_tip_angle}
         />
-      {/if}
-
-      {#if bottom_type == "sphere"}
-        <label for="angle-input"> Angle Editor </label>
-        <div class="flex flex-row">
-          <input
-            name="angle-input"
-            class="flex-1 h-10 min-w-0 bg-purple-100"
-            type="number"
-            bind:value={bottom_current_angle_input}
-          />
-          <button
-            class="h-10 rounded-full w-1/4 bg-rose-300"
-            on:click={() => {
-              if (!bottom_sphere_angles.includes(bottom_current_angle_input)) {
-                bottom_sphere_angles.push(bottom_current_angle_input);
-                bottom_sphere_angles = bottom_sphere_angles;
-              }
-            }}
-          >
-            Add
-          </button>
-          <button
-            class="h-10 rounded-full w-1/4 bg-rose-500"
-            on:click={() => {
-              bottom_sphere_angles = [0];
-            }}
-          >
-            Reset
-          </button>
-        </div>
-        <p>
-          Current Angles: {bottom_sphere_angles}
-        </p>
       {/if}
     </div>
     <button

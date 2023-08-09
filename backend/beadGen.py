@@ -96,13 +96,8 @@ def generateDouble(
     top_tip_angle: float | None = None,
     bottom_tip_angle: float | None = None,
     top_sphere_angles: list[float] | None = None,
-    bottom_sphere_angles: list[float] | None = None,
 ):
-    if not (
-        hole_radius < radius
-        and (top_tip_angle or top_sphere_angles)
-        and (bottom_tip_angle or bottom_sphere_angles)
-    ):
+    if not (hole_radius < radius and (top_tip_angle or top_sphere_angles)):
         print("parameters missing or out of range")
         return
 
@@ -141,6 +136,12 @@ def generateDouble(
                 )
             )
             b -= sweep(sections=[hole_shape], path=line)
+    else:
+        b -= extrude(
+            to_extrude=hole_shape,
+            amount=tip.faces().sort_by(SortBy.AREA).first.center().Z,
+            both=True,
+        )
 
     return (tools.exportSTL(b, "double-sided", 1), b)
 
