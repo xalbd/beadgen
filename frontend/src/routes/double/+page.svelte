@@ -50,13 +50,19 @@
   <meta name="description" content="Automatic Wire-Jamming Bead Generation" />
 </svelte:head>
 
-<div class="flex flex-row h-screen">
+<div class="flex flex-row h-screen p-2">
   <div class="flex flex-col w-1/5">
-    <label for="result-type"> Generation Type </label>
-    <select name="result-type" bind:value={bead_type}>
-      <option value="single">Single</option>
-      <option value="matching">Matching Pair</option>
-    </select>
+    <div class="flex flex-row">
+      <label for="result-type" class="pr-3"> Generation Type: </label>
+      <select
+        name="result-type"
+        class="outline outline-slate-600 rounded-lg"
+        bind:value={bead_type}
+      >
+        <option value="single">Single</option>
+        <option value="matching">Matching Pair</option>
+      </select>
+    </div>
 
     <label for="radius-input"> Radius </label>
     <input
@@ -169,7 +175,7 @@
       Download Generation
     </button>
   </div>
-  <div class="relative flex-1 p-2 bg-slate-200" id="bead-stl" />
+  <div class="relative flex-1 ml-2" id="bead-stl" />
 </div>
 
 <style>

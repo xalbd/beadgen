@@ -34,13 +34,19 @@
   });
 </script>
 
-<div class="flex flex-row flex-1">
+<div class="flex flex-row flex-1 p-2">
   <div class="flex flex-col w-1/4">
-    <label for="tip-type"> Tip Type </label>
-    <select name="tip-type" bind:value={tip_type}>
-      <option value="cone">Cone</option>
-      <option value="sphere">Sphere</option>
-    </select>
+    <div class="flex flex-row">
+      <label for="tip-type" class="pr-3"> Tip Type: </label>
+      <select
+        name="tip-type"
+        class="outline outline-slate-600 rounded-lg"
+        bind:value={tip_type}
+      >
+        <option value="cone">Cone</option>
+        <option value="sphere">Sphere</option>
+      </select>
+    </div>
 
     <label for="radius-input"> Radius </label>
     <input
@@ -77,7 +83,7 @@
       Update Tip
     </button>
   </div>
-  <div class="relative flex-1 p-2 bg-slate-200" id="tip-stl" />
+  <div class="relative flex-1 ml-2" id="tip-stl" />
 </div>
 
 <style></style>

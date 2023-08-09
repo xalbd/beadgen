@@ -32,13 +32,19 @@
   });
 </script>
 
-<div class="flex flex-row flex-1">
+<div class="flex flex-row flex-1 p-2">
   <div class="flex flex-col w-1/4">
-    <label for="result-type"> Result Type </label>
-    <select name="result-type" bind:value={result_type}>
-      <option value="bead">Bead</option>
-      <option value="line">Line</option>
-    </select>
+    <div class="flex flex-row">
+      <label for="result-type" class="pr-3"> Result Type: </label>
+      <select
+        name="result-type"
+        class="outline outline-slate-600 rounded-lg"
+        bind:value={result_type}
+      >
+        <option value="bead">Bead</option>
+        <option value="line">Line</option>
+      </select>
+    </div>
 
     <label for="length-input"> Length </label>
     <input
@@ -76,7 +82,7 @@
       Download Generation
     </button>
   </div>
-  <div class="relative flex-1 p-2 bg-slate-200" id="bead-stl" />
+  <div class="relative flex-1 ml-2" id="bead-stl" />
 </div>
 
 <style></style>
