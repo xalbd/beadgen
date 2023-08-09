@@ -1,4 +1,6 @@
 from build123d import *
+from ocp_vscode import *
+import math
 
 # tip types: 0=cone,   1=sphere,   2=flat
 
@@ -97,3 +99,48 @@ def junctionBead(tipType, baseType, radius, height, hole_radius, cut_radius):
     bead -= Pos(-radius*(ratio*0.8),0,0)*hole
 
     return bead
+
+
+
+
+def curvedCylinderBead(radius, angle, hole_radius):
+    ratio = 0.88
+    cut = Pos(0, 0, 0) * Cone(
+        bottom_radius=radius,
+        top_radius=hole_radius,
+        height=radius,
+        align=(Align.CENTER, Align.CENTER, Align.MIN),
+    )
+    curve_radius = radius*1.3
+    path = TangentArc((0, 0, 0), (0, curve_radius*(1-math.cos(math.radians(angle))), curve_radius*math.sin(math.radians(angle))), tangent=(0, 0, 1))
+
+    base = sweep(sections=section(obj=cut, section_by=Plane.XY), path=path)
+    tip = Plane(base.faces().sort_by().last) * cut
+
+    b = base + tip - cut
+    wall_thickness = (radius*(1-ratio))
+    b -= offset(b, amount=-wall_thickness)
+
+
+    hole_shape = make_face(cut.edges().sort_by(Axis.Z).last)
+    
+    b -= extrude(to_extrude=hole_shape, amount=wall_thickness)
+    b -= extrude(to_extrude=hole_shape, amount=-hole_shape.center().Z)
+    
+    b -= extrude(
+        to_extrude=Plane(base.faces().sort_by().last)
+        * Pos(0, 0, -wall_thickness)
+        * cut.faces().sort_by().last,
+        amount=cut.faces().sort_by().last.center().Z + wall_thickness,
+        both=True,
+    )
+
+    hole = Cylinder(radius/4, radius, rotation=(0, -90, 0), align=(Align.MIN,Align.CENTER,Align.MIN))
+    b -= Pos(-radius*ratio*0.8,0, radius/2)*hole
+
+    return b
+
+
+#curved = curvedCylinderBead(10, 120, 0.8)
+
+#show_object(curved)

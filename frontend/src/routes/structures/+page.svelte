@@ -14,7 +14,7 @@
     let scene = new THREE.Scene();
   
     let struct_type = "polygon";
-    let corner_type = "large-sphere";
+    let corner_type = 1;
     let side_length = 30;
     let beads_per_side = 3;
     let hole_radius = 1;
@@ -23,7 +23,7 @@
     let api_path: string;
     $: {
       if (struct_type == "square") {
-        api_path = `http://localhost:8000/api/square-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
+        api_path = `http://localhost:8000/api/square-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}&corner_type=${corner_type}`;
       } else if (struct_type == "triangle") {
         api_path = `http://localhost:8000/api/triangle-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}`;
       } else if (struct_type == "polygon") {
@@ -53,7 +53,8 @@
 
       <label for="corner-type"> Corner Type </label>
       <select name="corner-type" bind:value={corner_type}>
-        <option value="large-sphere">Large Sphere</option>
+        <option value=0>Large Sphere</option>
+        <option value=1>Curved Cylinder</option>
       </select>
   
       {#if !struct_type || struct_type == "polygon"}
