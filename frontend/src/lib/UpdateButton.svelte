@@ -9,7 +9,7 @@
 </script>
 
 <button
-  class="h-10 rounded-full bg-green-400 mt-2 flex flex-row items-center justify-center"
+  class="h-10 rounded-full bg-green-400 hover:bg-green-500 active:bg-green-600 mt-2 flex flex-row items-center justify-center"
   on:click={() => {
     loadSTL(loader, scene, material, api_path);
   }}

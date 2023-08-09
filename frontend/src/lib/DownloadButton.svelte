@@ -3,7 +3,7 @@
 </script>
 
 <button
-  class="h-10 rounded-full bg-red-300 mt-2 flex flex-row items-center justify-center"
+  class="h-10 rounded-full bg-red-300 hover:bg-red-400 active:bg-red-500 mt-2 flex flex-row items-center justify-center"
   on:click={() => {
     window.location.href = api_path;
   }}
