@@ -3,7 +3,7 @@ import math
 import tools
 
 
-def generateConeTip(hole_radius: float, radius: float, tip_angle: float):
+def generateConeTip(hole_radius: float, radius: float, tip_angle: float, export: bool = True):
     if not (hole_radius < radius):
         print("parameters out of range")  # TODO: how to make this return error onto front-end?
         return
@@ -16,10 +16,12 @@ def generateConeTip(hole_radius: float, radius: float, tip_angle: float):
         align=(Align.CENTER, Align.CENTER, Align.MIN),
     )
 
+    if not export:
+        return tip
     return (tools.exportSTL(tip, "cone-tip", 1), tip)
 
 
-def generateSphereTip(hole_radius: float, radius: float):
+def generateSphereTip(hole_radius: float, radius: float, export: bool = True):
     if not (hole_radius < radius):
         print("parameters out of range")  # TODO: how to make this return error onto front-end?
         return
@@ -32,6 +34,8 @@ def generateSphereTip(hole_radius: float, radius: float):
         length=radius, width=radius, height=radius, align=(Align.CENTER, Align.CENTER, Align.MIN)
     )
 
+    if not export:
+        return tip
     return (tools.exportSTL(tip, "sphere-tip", 1), tip)
 
 
@@ -101,7 +105,44 @@ def generateDouble(
     ):
         print("parameters missing or out of range")
         return
-    return
+
+    if top_tip_angle:
+        tip = generateConeTip(
+            hole_radius=hole_radius, radius=radius, tip_angle=top_tip_angle, export=False
+        )
+    else:
+        tip = generateSphereTip(hole_radius=hole_radius, radius=radius, export=False)
+
+    if bottom_tip_angle:
+        cut = generateConeTip(
+            hole_radius=hole_radius, radius=radius, tip_angle=bottom_tip_angle, export=False
+        )
+    else:
+        cut = generateSphereTip(hole_radius=hole_radius, radius=radius, export=False)
+
+    base = sweep(
+        sections=section(obj=cut, section_by=Plane.XY), path=Line((0, 0, 0), (0, 0, length))
+    )
+    tip = Pos(0, 0, length) * tip
+    b = base - cut + tip
+
+    hole_shape = cut.faces().sort_by().last
+
+    if top_sphere_angles:
+        for o in top_sphere_angles:
+            line = (
+                Plane.XZ
+                * Pos(0, (cut.faces().sort_by().last.edges().first @ 0).Z, 0)
+                * PolarLine(
+                    start=(0, 0, 0),
+                    length=length,
+                    angle=90 - o,
+                    length_mode=LengthMode.VERTICAL,
+                )
+            )
+            b -= sweep(sections=[hole_shape], path=line)
+
+    return (tools.exportSTL(b, "double-sided", 1), b)
 
 
 def generateSimpleSphere(radius: float, hole_radius: float, copies: int):
