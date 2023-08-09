@@ -75,7 +75,7 @@
     {/if}
 
     <button
-      class="h-10 rounded-full bg-green-500"
+      class="h-10 rounded-full bg-green-400 mt-2"
       on:click={() => {
         loadSTL(loader, scene, material, api_path);
       }}
@@ -83,7 +83,7 @@
       Update Tip
     </button>
   </div>
-  <div class="relative flex-1 ml-2" id="tip-stl" />
+  <div class="relative flex-1 ml-2 max-h-full" id="tip-stl" />
 </div>
 
 <style></style>
