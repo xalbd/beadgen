@@ -5,6 +5,7 @@
   import { loadSTL, createViewer } from "$lib/STLViewer";
   import DownloadButton from "$lib/DownloadButton.svelte";
   import UpdateButton from "$lib/UpdateButton.svelte";
+  import AngleEditor from "$lib/AngleEditor.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xa345bf,
@@ -24,7 +25,7 @@
   let copies = 1;
 
   let api_path: string;
-  $: {
+  function updateAPIPath() {
     if (bead_type == "simple") {
       api_path = `http://localhost:8000/api/simple_sphere?radius=${radius}&hole_radius=${hole_radius}&copies=${copies}`;
     } else if (bead_type == "normal") {
@@ -35,10 +36,12 @@
         api_path += `&angles=${angle}`;
       });
     }
+
+    loadSTL(loader, scene, material, api_path);
   }
 
   onMount(() => {
-    loadSTL(loader, scene, material, api_path);
+    updateAPIPath();
     createViewer(scene, "sphere-stl");
   });
 </script>
@@ -90,37 +93,7 @@
     {/if}
 
     {#if bead_type == "multi"}
-      <label for="angle-input"> Angle Editor </label>
-      <div class="flex flex-row">
-        <input
-          name="angle-input"
-          class="flex-1 h-10 min-w-0 bg-purple-100"
-          type="number"
-          bind:value={current_angle_input}
-        />
-        <button
-          class="h-10 rounded-full w-1/4 bg-rose-300"
-          on:click={() => {
-            if (!angles.includes(current_angle_input)) {
-              angles.push(current_angle_input);
-              angles = angles;
-            }
-          }}
-        >
-          Add
-        </button>
-        <button
-          class="h-10 rounded-full w-1/4 bg-rose-500"
-          on:click={() => {
-            angles = [0];
-          }}
-        >
-          Reset
-        </button>
-      </div>
-      <p>
-        Current Angles: {angles}
-      </p>
+      <AngleEditor {current_angle_input} {angles} />
     {/if}
 
     <label for="copies-input"> Copies </label>
@@ -131,7 +104,7 @@
       bind:value={copies}
     />
 
-    <UpdateButton {loader} {scene} {material} {api_path} />
+    <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />
   </div>
   <div class="relative flex-1 ml-2" id="sphere-stl" />

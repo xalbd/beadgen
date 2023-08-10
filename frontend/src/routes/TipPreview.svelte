@@ -20,16 +20,17 @@
   let tip_angle = 90;
 
   let api_path: string;
-  $: {
+  function updateAPIPath() {
     if (tip_type == "cone") {
       api_path = `http://localhost:8000/api/cone_tip?radius=${radius}&hole_radius=${hole_radius}&tip_angle=${tip_angle}`;
     } else if (tip_type == "sphere") {
       api_path = `http://localhost:8000/api/sphere_tip?radius=${radius}&hole_radius=${hole_radius}`;
     }
+    loadSTL(loader, scene, material, api_path);
   }
 
   onMount(() => {
-    loadSTL(loader, scene, material, api_path);
+    updateAPIPath();
     createViewer(scene, "tip-stl");
   });
 </script>
@@ -74,7 +75,7 @@
       />
     {/if}
 
-    <UpdateButton {loader} {scene} {material} {api_path} />
+    <UpdateButton on:requestUpdate={updateAPIPath} />
   </div>
   <div class="relative flex-1 ml-2 max-h-full" id="tip-stl" />
 </div>

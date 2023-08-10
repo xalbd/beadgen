@@ -20,16 +20,18 @@
   let segments = 1;
 
   let api_path: string;
-  $: {
+  function updateAPIPath() {
     if (result_type == "bead") {
       api_path = `http://localhost:8000/api/bead?length=${length}`;
     } else if (result_type == "line") {
       api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}`;
     }
+
+    loadSTL(loader, scene, material, api_path);
   }
 
   onMount(() => {
-    loadSTL(loader, scene, material, api_path);
+    updateAPIPath();
     createViewer(scene, "bead-stl");
   });
 </script>
@@ -66,7 +68,7 @@
       />
     {/if}
 
-    <UpdateButton {loader} {scene} {material} {api_path} />
+    <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />
   </div>
   <div class="relative flex-1 ml-2" id="bead-stl" />

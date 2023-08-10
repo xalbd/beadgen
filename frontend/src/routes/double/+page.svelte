@@ -5,6 +5,7 @@
   import { loadSTL, createViewer } from "$lib/STLViewer";
   import DownloadButton from "$lib/DownloadButton.svelte";
   import UpdateButton from "$lib/UpdateButton.svelte";
+  import AngleEditor from "$lib/AngleEditor.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0x66ff66,
@@ -27,7 +28,7 @@
   let top_current_angle_input = 45;
 
   let api_path: string;
-  $: {
+  function updateAPIPath() {
     api_path = `http://localhost:8000/api/double_sided?radius=${radius}&hole_radius=${hole_radius}&length=${length}`;
     if (top_type == "cone") {
       api_path += `&top_tip_angle=${top_cone_tip_angle}`;
@@ -39,10 +40,12 @@
     if (bottom_type == "cone") {
       api_path += `&bottom_tip_angle=${bottom_cone_tip_angle}`;
     }
+
+    loadSTL(loader, scene, material, api_path);
   }
 
   onMount(() => {
-    loadSTL(loader, scene, material, api_path);
+    updateAPIPath();
     createViewer(scene, "bead-stl");
   });
 </script>
@@ -108,37 +111,10 @@
       {/if}
 
       {#if top_type == "sphere"}
-        <label for="angle-input"> Angle Editor </label>
-        <div class="flex flex-row">
-          <input
-            name="angle-input"
-            class="flex-1 h-10 min-w-0 bg-purple-100"
-            type="number"
-            bind:value={top_current_angle_input}
-          />
-          <button
-            class="h-10 rounded-full w-1/4 bg-rose-300"
-            on:click={() => {
-              if (!top_sphere_angles.includes(top_current_angle_input)) {
-                top_sphere_angles.push(top_current_angle_input);
-                top_sphere_angles = top_sphere_angles;
-              }
-            }}
-          >
-            Add
-          </button>
-          <button
-            class="h-10 rounded-full w-1/4 bg-rose-500"
-            on:click={() => {
-              top_sphere_angles = [0];
-            }}
-          >
-            Reset
-          </button>
-        </div>
-        <p>
-          Current Angles: {top_sphere_angles}
-        </p>
+        <AngleEditor
+          current_angle_input={top_current_angle_input}
+          angles={top_sphere_angles}
+        />
       {/if}
     </div>
 
@@ -160,7 +136,7 @@
       {/if}
     </div>
 
-    <UpdateButton {loader} {scene} {material} {api_path} />
+    <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />
   </div>
   <div class="relative flex-1 ml-2" id="bead-stl" />

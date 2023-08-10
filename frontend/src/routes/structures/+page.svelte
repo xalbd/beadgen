@@ -23,7 +23,7 @@
   let num_sides = 3;
 
   let api_path: string;
-  $: {
+  function updateAPIPath() {
     if (struct_type == "square") {
       api_path = `http://localhost:8000/api/square-struct?side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}&corner_type=${corner_type}`;
     } else if (struct_type == "triangle") {
@@ -31,10 +31,12 @@
     } else if (struct_type == "polygon") {
       api_path = `http://localhost:8000/api/polygon-struct?num_sides=${num_sides}&side_length=${side_length}&beads_per_side=${beads_per_side}&hole_radius=${hole_radius}&corner_type=${corner_type}`;
     }
+
+    loadSTL(loader, scene, material, api_path);
   }
 
   onMount(() => {
-    loadSTL(loader, scene, material, api_path);
+    updateAPIPath();
     createViewer(scene, "struct-stl");
   });
 </script>
@@ -105,7 +107,7 @@
       bind:value={hole_radius}
     />
 
-    <UpdateButton {loader} {scene} {material} {api_path} />
+    <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />
   </div>
   <div class="relative flex-1 ml-2" id="struct-stl" />
