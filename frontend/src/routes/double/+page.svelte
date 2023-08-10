@@ -59,7 +59,7 @@
   <meta name="description" content="Automatic Wire-Jamming Bead Generation" />
 </svelte:head>
 
-<div class="flex flex-row h-screen p-2">
+<div class="flex flex-row flex-1 p-2">
   <div class="flex flex-col w-1/5">
     <ModeSelect
       label="Generation Type:"
@@ -141,7 +141,7 @@
     <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />
   </div>
-  <div class="relative flex-1 ml-2" id="bead-stl" />
+  <div class="flex-1 ml-2" id="bead-stl" />
 </div>
 
 <style>

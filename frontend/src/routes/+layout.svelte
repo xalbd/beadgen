@@ -2,7 +2,7 @@
   import "../app.css";
 </script>
 
-<div class="divide-y divide-solid divide-stone-600">
+<div class="divide-y divide-solid divide-stone-600 min-h-screen flex flex-col">
   <div class="flex flex-row items-center justify-between">
     <p class="text-xl font-semibold pl-2">Bead Generation</p>
     <nav class="py-1 px-2 font-sans">

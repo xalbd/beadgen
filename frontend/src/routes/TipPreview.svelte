@@ -39,7 +39,7 @@
   });
 </script>
 
-<div class="flex flex-row flex-1 p-2">
+<div class="flex flex-row w-1/2 p-2">
   <div class="flex flex-col w-1/4">
     <ModeSelect label="Tip Type:" bind:binding={tip_type} values={tip_types} />
 
@@ -71,7 +71,7 @@
 
     <UpdateButton on:requestUpdate={updateAPIPath} />
   </div>
-  <div class="relative flex-1 ml-2 max-h-full" id="tip-stl" />
+  <div class="flex-1 ml-2" id="tip-stl" />
 </div>
 
 <style></style>

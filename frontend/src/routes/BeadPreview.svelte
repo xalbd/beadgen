@@ -39,7 +39,7 @@
   });
 </script>
 
-<div class="flex flex-row flex-1 p-2">
+<div class="flex flex-row flex-1 w-1/2 p-2">
   <div class="flex flex-col w-1/4">
     <ModeSelect
       label="Output Type:"
@@ -68,7 +68,7 @@
     <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />
   </div>
-  <div class="relative flex-1 ml-2" id="bead-stl" />
+  <div class="flex-1 ml-2" id="bead-stl" />
 </div>
 
 <style></style>
