@@ -5,6 +5,7 @@
   import { loadSTL, createViewer } from "$lib/STLViewer";
   import DownloadButton from "$lib/DownloadButton.svelte";
   import UpdateButton from "$lib/UpdateButton.svelte";
+  import ModeSelect from "$lib/ModeSelect.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xa345bf,
@@ -21,6 +22,13 @@
   let beads_per_side = 3;
   let hole_radius = 1;
   let num_sides = 3;
+
+  const struct_types = {
+    square: "Square",
+    triangle: "Triangle",
+    polygon: "Polygon",
+  };
+  const corner_types = { 0: "Large Sphere", 1: "Curved Cylinder" };
 
   let api_path: string;
   function updateAPIPath() {
@@ -48,30 +56,16 @@
 
 <div class="flex flex-row h-screen p-2">
   <div class="flex flex-col w-1/5">
-    <div class="flex flex-row">
-      <label for="result-type" class="pr-3"> Structure Type: </label>
-      <select
-        name="result-type"
-        class="outline outline-slate-600 rounded-lg mb-2"
-        bind:value={struct_type}
-      >
-        <option value="square">Square</option>
-        <option value="triangle">Triangle</option>
-        <option value="polygon">Polygon</option>
-      </select>
-    </div>
-
-    <div class="flex flex-row">
-      <label for="corner-type" class="pr-3"> Corner Type: </label>
-      <select
-        name="corner-type"
-        class="outline outline-slate-600 rounded-lg"
-        bind:value={corner_type}
-      >
-        <option value="0">Large Sphere</option>
-        <option value="1">Curved Cylinder</option>
-      </select>
-    </div>
+    <ModeSelect
+      label="Structure Type:"
+      bind:binding={struct_type}
+      values={struct_types}
+    />
+    <ModeSelect
+      label="Corner Type:"
+      bind:binding={corner_type}
+      values={corner_types}
+    />
 
     {#if !struct_type || struct_type == "polygon"}
       <label for="num-sides-input"> Number of Sides </label>

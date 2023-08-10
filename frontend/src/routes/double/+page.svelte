@@ -6,6 +6,7 @@
   import DownloadButton from "$lib/DownloadButton.svelte";
   import UpdateButton from "$lib/UpdateButton.svelte";
   import AngleEditor from "$lib/AngleEditor.svelte";
+  import ModeSelect from "$lib/ModeSelect.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0x66ff66,
@@ -26,6 +27,9 @@
   let bottom_cone_tip_angle = 90;
   let top_sphere_angles = [0];
   let top_current_angle_input = 45;
+
+  const generation_types = { single: "Single", matching: "Matching" };
+  const bead_types = { cone: "Cone", sphere: "Sphere" };
 
   let api_path: string;
   function updateAPIPath() {
@@ -57,17 +61,11 @@
 
 <div class="flex flex-row h-screen p-2">
   <div class="flex flex-col w-1/5">
-    <div class="flex flex-row">
-      <label for="result-type" class="pr-3"> Generation Type: </label>
-      <select
-        name="result-type"
-        class="outline outline-slate-600 rounded-lg"
-        bind:value={bead_type}
-      >
-        <option value="single">Single</option>
-        <option value="matching">Matching Pair</option>
-      </select>
-    </div>
+    <ModeSelect
+      label="Generation Type:"
+      bind:binding={bead_type}
+      values={generation_types}
+    />
 
     <label for="radius-input"> Radius </label>
     <input
@@ -94,11 +92,11 @@
     />
 
     <div class="mt-3 p-1 outline-1 outline flex-col flex bg-red-200">
-      <label for="top-type" class="mb-1"> Top Interface </label>
-      <select name="top-type" bind:value={top_type}>
-        <option value="cone">Cone</option>
-        <option value="sphere">Sphere</option>
-      </select>
+      <ModeSelect
+        label="Top Interface:"
+        bind:binding={top_type}
+        values={bead_types}
+      />
 
       {#if top_type == "cone"}
         <label for="top-tip-angle-input"> Tip Angle </label>
@@ -119,11 +117,11 @@
     </div>
 
     <div class="my-3 p-1 outline-1 outline flex-col flex bg-orange-100">
-      <label for="bottom-type"> Bottom Interface </label>
-      <select name="bottom-type" bind:value={bottom_type}>
-        <option value="cone">Cone</option>
-        <option value="sphere">Sphere</option>
-      </select>
+      <ModeSelect
+        label="Bottom Interface:"
+        bind:binding={bottom_type}
+        values={bead_types}
+      />
 
       {#if bottom_type == "cone"}
         <label for="bottom-tip-angle-input"> Tip Angle </label>

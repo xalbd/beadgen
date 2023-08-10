@@ -6,6 +6,7 @@
   import DownloadButton from "$lib/DownloadButton.svelte";
   import UpdateButton from "$lib/UpdateButton.svelte";
   import AngleEditor from "$lib/AngleEditor.svelte";
+  import ModeSelect from "$lib/ModeSelect.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xa345bf,
@@ -23,6 +24,12 @@
   let current_angle_input = 20;
   let angles = [45, 0];
   let copies = 1;
+
+  const bead_types = {
+    simple: "Simple",
+    normal: "Normal",
+    multi: "Multi-Angle",
+  };
 
   let api_path: string;
   function updateAPIPath() {
@@ -53,18 +60,11 @@
 
 <div class="flex flex-row h-screen p-2">
   <div class="flex flex-col w-1/5">
-    <div class="flex flex-row">
-      <label for="result-type" class="pr-3"> Sphere Type: </label>
-      <select
-        name="result-type"
-        class="outline outline-slate-600 rounded-lg"
-        bind:value={bead_type}
-      >
-        <option value="simple">Simple</option>
-        <option value="normal">Normal</option>
-        <option value="multi">Multi Angle</option>
-      </select>
-    </div>
+    <ModeSelect
+      label="Sphere Type:"
+      bind:binding={bead_type}
+      values={bead_types}
+    />
 
     <label for="radius-input"> Radius </label>
     <input
