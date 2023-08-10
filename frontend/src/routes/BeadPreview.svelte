@@ -19,13 +19,24 @@
   let result_type = "bead";
   let length = 5;
   let segments = 1;
+  let flatten_top = false;
+  let flatten_bottom = false;
+
+  function calculateFlattenValue() {
+    // pass in 0 for normal bead, 1 to flatten bottom, 2 to flatten top, 3 to flatten both
+    let output = 0;
+    if (flatten_bottom) output++;
+    if (flatten_top) output += 2;
+
+    return output;
+  }
 
   const result_types = { bead: "Bead", line: "Line" };
 
   let api_path: string;
   function updateAPIPath() {
     if (result_type == "bead") {
-      api_path = `http://localhost:8000/api/bead?length=${length}`;
+      api_path = `http://localhost:8000/api/bead?length=${length}&flatten=${calculateFlattenValue()}`;
     } else if (result_type == "line") {
       api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}`;
     }
@@ -46,6 +57,20 @@
       bind:binding={result_type}
       values={result_types}
     />
+
+    <div class="block">
+      <label for="top-toggle" class="pr-1"> Flatten Top? </label>
+      <input name="top-toggle" type="checkbox" bind:checked={flatten_top} />
+    </div>
+
+    <div class="block">
+      <label for="bottom-toggle" class="pr-1"> Flatten Bottom? </label>
+      <input
+        name="bottom-toggle"
+        type="checkbox"
+        bind:checked={flatten_bottom}
+      />
+    </div>
 
     <label for="length-input"> Length </label>
     <input

@@ -39,20 +39,20 @@ def generateSphereTip(hole_radius: float, radius: float, export: bool = True):
     return (tools.exportSTL(tip, "sphere-tip", 1), tip)
 
 
-def generateBead(cut: Part, length: float):
+def generateBead(cut: Part, length: float, flatten: int):
     base = sweep(
         sections=section(obj=cut, section_by=Plane.XY), path=Line((0, 0, 0), (0, 0, length))
     )
     tip = Plane(base.faces().sort_by().last) * cut
 
-    b = base + tip - cut
-    # match style:
-    #     case BeadStyle.DEFAULT:
-    #         b = base + tip - cut
-    #     case BeadStyle.FLAT_BOTTOM:
-    #         b = base + tip
-    #     case BeadStyle.FLAT_TOP:
-    #         b = base - cut
+    b = base
+    match flatten:
+        case 0:
+            b = b + tip - cut
+        case 1:
+            b = b + tip
+        case 2:
+            b = b - cut
 
     hole_shape = cut.faces().sort_by().last
     b -= extrude(

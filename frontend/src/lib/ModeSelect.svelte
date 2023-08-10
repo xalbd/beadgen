@@ -8,7 +8,7 @@
   <label for="selection" class="pr-1"> {label} </label>
   <select
     name="selection"
-    class=" bg-gray-200 border border-gray-200 px-1 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+    class="bg-gray-200 border border-gray-200 px-1 rounded focus:outline-none focus:bg-white focus:border-gray-500"
     bind:value={binding}
   >
     {#each Object.entries(values) as [value, name]}

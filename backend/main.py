@@ -66,13 +66,11 @@ def sphere_tip(
 
 
 @app.get("/api/bead")
-def bead(
-    length: Annotated[float, Query(gt=0)],
-):
+def bead(length: Annotated[float, Query(gt=0)], flatten: Annotated[int, Query(ge=0, le=3)]):
     if not app.current_tip:
         print("not found")
         return
-    result = beadGen.generateBead(cut=app.current_tip, length=length)
+    result = beadGen.generateBead(cut=app.current_tip, length=length, flatten=flatten)
     app.current_bead = result[1]
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
@@ -164,10 +162,13 @@ def square(
     side_length: Annotated[float, Query(gt=0)],
     beads_per_side: Annotated[int, Query(gt=0)],
     hole_radius: Annotated[float, Query()],
-    corner_type: Annotated[int, Query()]
+    corner_type: Annotated[int, Query()],
 ):
     result = structureGen.squareStructGen(
-        side_length=side_length, beads_per_side=beads_per_side, hole_radius=hole_radius, corner_type=corner_type
+        side_length=side_length,
+        beads_per_side=beads_per_side,
+        hole_radius=hole_radius,
+        corner_type=corner_type,
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
@@ -178,10 +179,13 @@ def triangle(
     side_length: Annotated[float, Query(gt=0)],
     beads_per_side: Annotated[int, Query(gt=0)],
     hole_radius: Annotated[float, Query()],
-    corner_type: Annotated[int, Query()]
+    corner_type: Annotated[int, Query()],
 ):
     result = structureGen.triangleStructGen(
-        side_length=side_length, beads_per_side=beads_per_side, hole_radius=hole_radius, corner_type=corner_type
+        side_length=side_length,
+        beads_per_side=beads_per_side,
+        hole_radius=hole_radius,
+        corner_type=corner_type,
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
@@ -193,14 +197,14 @@ def polygon(
     side_length: Annotated[float, Query(gt=0)],
     beads_per_side: Annotated[int, Query(gt=1)],
     hole_radius: Annotated[float, Query(gt=0)],
-    corner_type: Annotated[int, Query()]
+    corner_type: Annotated[int, Query()],
 ):
     result = structureGen.polygonStructGen(
         num_sides=num_sides,
         side_length=side_length,
         beads_per_side=beads_per_side,
         hole_radius=hole_radius,
-        corner_type=corner_type
+        corner_type=corner_type,
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
