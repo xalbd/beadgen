@@ -4,15 +4,15 @@
 </script>
 
 <label for="angle-input"> Angle Editor </label>
-<div class="flex flex-row">
+<div class="flex flex-row space-x-1">
   <input
     name="angle-input"
-    class="flex-1 h-10 min-w-0 bg-purple-100"
+    class="flex-1 h-10 min-w-0 appearance-none bg-gray-200 border border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:bg-white"
     type="number"
     bind:value={current_angle_input}
   />
   <button
-    class="h-10 rounded-full w-1/4 bg-rose-300 flex flex-row items-center justify-center"
+    class="h-10 rounded-lg w-1/4 bg-green-400 hover:bg-green-500 active:bg-green-600 flex flex-row items-center justify-center"
     on:click={() => {
       if (!angles.includes(current_angle_input)) {
         angles.push(current_angle_input);
@@ -28,7 +28,7 @@
     </svg>Add</button
   >
   <button
-    class="h-10 rounded-full w-1/4 bg-rose-500 flex flex-row items-center justify-center"
+    class="h-10 rounded-lg w-1/4 bg-red-300 hover:bg-red-400 active:bg-red-500 flex flex-row items-center justify-center"
     on:click={() => {
       angles = [0];
     }}

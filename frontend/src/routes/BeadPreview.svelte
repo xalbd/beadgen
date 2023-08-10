@@ -5,6 +5,7 @@
   import { loadSTL, createViewer } from "$lib/STLViewer";
   import DownloadButton from "$lib/DownloadButton.svelte";
   import UpdateButton from "$lib/UpdateButton.svelte";
+  import ModeSelect from "$lib/ModeSelect.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0x9e8db9,
@@ -18,6 +19,8 @@
   let result_type = "bead";
   let length = 5;
   let segments = 1;
+
+  const result_types = { bead: "Bead", line: "Line" };
 
   let api_path: string;
   function updateAPIPath() {
@@ -38,17 +41,11 @@
 
 <div class="flex flex-row flex-1 p-2">
   <div class="flex flex-col w-1/4">
-    <div class="flex flex-row">
-      <label for="result-type" class="pr-3"> Result Type: </label>
-      <select
-        name="result-type"
-        class="outline outline-slate-600 rounded-lg"
-        bind:value={result_type}
-      >
-        <option value="bead">Bead</option>
-        <option value="line">Line</option>
-      </select>
-    </div>
+    <ModeSelect
+      label="Output Type:"
+      bind:binding={result_type}
+      values={result_types}
+    />
 
     <label for="length-input"> Length </label>
     <input

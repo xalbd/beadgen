@@ -4,6 +4,7 @@
   import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
   import { loadSTL, createViewer } from "$lib/STLViewer";
   import UpdateButton from "$lib/UpdateButton.svelte";
+  import ModeSelect from "$lib/ModeSelect.svelte";
 
   const material = new THREE.MeshPhongMaterial({
     color: 0xff5533,
@@ -19,8 +20,11 @@
   let hole_radius = 0.5;
   let tip_angle = 90;
 
+  const tip_types = { cone: "Cone", sphere: "Sphere" };
+
   let api_path: string;
   function updateAPIPath() {
+    console.log(tip_type);
     if (tip_type == "cone") {
       api_path = `http://localhost:8000/api/cone_tip?radius=${radius}&hole_radius=${hole_radius}&tip_angle=${tip_angle}`;
     } else if (tip_type == "sphere") {
@@ -37,17 +41,7 @@
 
 <div class="flex flex-row flex-1 p-2">
   <div class="flex flex-col w-1/4">
-    <div class="flex flex-row">
-      <label for="tip-type" class="pr-3"> Tip Type: </label>
-      <select
-        name="tip-type"
-        class="outline outline-slate-600 rounded-lg"
-        bind:value={tip_type}
-      >
-        <option value="cone">Cone</option>
-        <option value="sphere">Sphere</option>
-      </select>
-    </div>
+    <ModeSelect label="Tip Type:" bind:binding={tip_type} values={tip_types} />
 
     <label for="radius-input"> Radius </label>
     <input

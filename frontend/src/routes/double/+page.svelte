@@ -93,8 +93,8 @@
       bind:value={length}
     />
 
-    <div class="mt-3 outline-1 outline flex-col flex bg-red-200">
-      <label for="top-type"> Top Interface </label>
+    <div class="mt-3 p-1 outline-1 outline flex-col flex bg-red-200">
+      <label for="top-type" class="mb-1"> Top Interface </label>
       <select name="top-type" bind:value={top_type}>
         <option value="cone">Cone</option>
         <option value="sphere">Sphere</option>
@@ -118,7 +118,7 @@
       {/if}
     </div>
 
-    <div class="my-3 outline-1 outline flex-col flex bg-orange-100">
+    <div class="my-3 p-1 outline-1 outline flex-col flex bg-orange-100">
       <label for="bottom-type"> Bottom Interface </label>
       <select name="bottom-type" bind:value={bottom_type}>
         <option value="cone">Cone</option>
