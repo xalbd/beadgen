@@ -17,8 +17,8 @@
   let scene = new THREE.Scene();
 
   let result_type = "bead";
-  let length = 15;
-  let segments = 4;
+  let length = 5;
+  let segments = 2;
   let flatten_top = false;
   let flatten_bottom = false;
 
