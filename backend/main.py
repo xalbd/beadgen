@@ -71,20 +71,22 @@ def bead(length: Annotated[float, Query(gt=0)], flatten: Annotated[int, Query(ge
         print("not found")
         return
     result = beadGen.generateBead(cut=app.current_tip, length=length, flatten=flatten)
-    app.current_bead = result[1]
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 
 
 @app.get("/api/bead_line")
 def bead_line(
-    segments: Annotated[int, Query(gt=0)],
+    segments: Annotated[int, Query(gt=1)],
     length: Annotated[float, Query(gt=0)],
+    flatten: Annotated[int, Query(ge=0, le=3)],
 ):
     if not app.current_tip:
         print("not found")
         return
-    result = beadGen.generateBeadLine(cut=app.current_tip, segments=segments, length=length)
+    result = beadGen.generateBeadLine(
+        cut=app.current_tip, segments=segments, length=length, flatten=flatten
+    )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 

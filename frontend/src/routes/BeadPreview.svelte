@@ -17,8 +17,8 @@
   let scene = new THREE.Scene();
 
   let result_type = "bead";
-  let length = 5;
-  let segments = 1;
+  let length = 15;
+  let segments = 4;
   let flatten_top = false;
   let flatten_bottom = false;
 
@@ -38,7 +38,7 @@
     if (result_type == "bead") {
       api_path = `http://localhost:8000/api/bead?length=${length}&flatten=${calculateFlattenValue()}`;
     } else if (result_type == "line") {
-      api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}`;
+      api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}&flatten=${calculateFlattenValue()}`;
     }
 
     loadSTL(loader, scene, material, api_path);

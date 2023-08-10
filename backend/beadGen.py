@@ -64,26 +64,21 @@ def generateBead(cut: Part, length: float, flatten: int):
     return (tools.exportSTL(b, "bead", 1), b)
 
 
-def generateBeadLine(
-    cut: Part,
-    segments: int,
-    length: float,
-):
-    b = generateBead(cut=cut, length=length / segments)[1]
-    # begin = bead.bead(**bead_args, style=bead.BeadStyle.FLAT_BOTTOM)
-    # end = bead.bead(**bead_args, style=bead.BeadStyle.FLAT_TOP)
-    # flat = bead.bead(**bead_args, style=bead.BeadStyle.FLAT_BOTH)
+def generateBeadLine(cut: Part, segments: int, length: float, flatten: int):
+    b = generateBead(cut=cut, length=length / segments, flatten=0)[1]
+    begin = generateBead(cut=cut, length=length / segments, flatten=1)[1]
+    end = generateBead(cut=cut, length=length / segments, flatten=2)[1]
 
-    beads = (segments) * [b]
-    # match style:
-    #     case bead.BeadStyle.DEFAULT:
-    #         beads += [b, b]
-    #     case bead.BeadStyle.FLAT_BOTTOM:
-    #         beads += [begin, b]
-    #     case bead.BeadStyle.FLAT_TOP:
-    #         beads += [b, end]
-    #     case bead.BeadStyle.FLAT_BOTH:
-    #         beads += [begin, end]
+    beads = (segments - 2) * [b]
+    match flatten:
+        case 0:
+            beads += [b, b]
+        case 1:
+            beads += [b, begin]
+        case 2:
+            beads += [b, end]
+        case 3:
+            beads += [begin, end]
 
     combined = tools.combineItemList(beads, cut.bounding_box().diagonal)
     return (tools.exportSTL(combined, "bead-line", 1), combined)
