@@ -93,7 +93,7 @@
     {/if}
 
     {#if bead_type == "multi"}
-      <AngleEditor {current_angle_input} {angles} />
+      <AngleEditor {current_angle_input} bind:angles />
     {/if}
 
     <label for="copies-input"> Copies </label>

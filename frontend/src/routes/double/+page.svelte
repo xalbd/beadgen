@@ -113,7 +113,7 @@
       {#if top_type == "sphere"}
         <AngleEditor
           current_angle_input={top_current_angle_input}
-          angles={top_sphere_angles}
+          bind:angles={top_sphere_angles}
         />
       {/if}
     </div>
