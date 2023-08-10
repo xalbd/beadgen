@@ -91,7 +91,9 @@
       bind:value={length}
     />
 
-    <div class="mt-3 p-1 outline-1 outline flex-col flex bg-red-200">
+    <div
+      class="mt-3 p-2 border border-gray-600 rounded-lg flex-col flex bg-red-200"
+    >
       <ModeSelect
         label="Top Interface:"
         bind:binding={top_type}
@@ -102,7 +104,7 @@
         <label for="top-tip-angle-input"> Tip Angle </label>
         <input
           name="top-tip-angle-input"
-          class="h-10 bg-purple-100"
+          class="h-10 bg-purple-300"
           type="number"
           bind:value={top_cone_tip_angle}
         />
@@ -116,7 +118,9 @@
       {/if}
     </div>
 
-    <div class="my-3 p-1 outline-1 outline flex-col flex bg-orange-100">
+    <div
+      class="my-3 p-2 border border-gray-600 rounded-lg flex-col flex bg-orange-100"
+    >
       <ModeSelect
         label="Bottom Interface:"
         bind:binding={bottom_type}
@@ -127,7 +131,7 @@
         <label for="bottom-tip-angle-input"> Tip Angle </label>
         <input
           name="top-tip-angle-input"
-          class="h-10 bg-purple-100"
+          class="h-10 bg-purple-300"
           type="number"
           bind:value={bottom_cone_tip_angle}
         />

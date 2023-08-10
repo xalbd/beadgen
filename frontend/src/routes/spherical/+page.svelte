@@ -22,7 +22,7 @@
   let hole_radius = 0.5;
   let effective_angle = 30;
   let current_angle_input = 20;
-  let angles = [45, 0];
+  let angles = [0, 45];
   let copies = 1;
 
   const bead_types = {

@@ -16,6 +16,7 @@
     on:click={() => {
       if (!angles.includes(current_angle_input)) {
         angles.push(current_angle_input);
+        angles.sort();
         angles = angles;
       }
     }}
@@ -43,6 +44,6 @@
     </svg>Reset
   </button>
 </div>
-<p>
-  Current Angles: {angles}
+<p class="text-sm">
+  Currently Selected: {angles.join(", ")}
 </p>
