@@ -84,25 +84,28 @@ def triangleStructGen(side_length, beads_per_side, hole_radius, corner_type):
 def polygonStructGen(num_sides, side_length, beads_per_side, hole_radius, corner_type):
     bead_array = shape_array_generation.polygon_chain(num_sides, side_length, beads_per_side)
     beads = []
-    for i in range(0, len(bead_array)):
+    length = len(bead_array)
+    corner_radius = bead_array[length-1][0]/2/(abs(math.sin(math.radians((180-bead_array[length-1][1])/2))))
+    print(corner_radius)
+    for i in range(0, length):
         bead = bead_array[i]
         if(corner_type==0):
             if(i == 0):
                 if(bead_array[i+1][1] != 0):
-                    new_bead = tempBeadGen.junctionBead(1, 1, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
+                    new_bead = tempBeadGen.junctionBead(1, 1, bead[0]/2, bead[0], hole_radius, corner_radius)
                 else:
-                    new_bead = tempBeadGen.cylinderBead(0, 1, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
+                    new_bead = tempBeadGen.cylinderBead(0, 1, bead[0]/2, bead[0], hole_radius, corner_radius)
             elif(bead[1] != 0):
-                new_bead = beadGen.generateAngledBead(bead[0]/2/(abs(math.sin(math.radians((180-bead[1])/2)))), hole_radius, [0, bead[1]], cutout_query=False)[1]
+                new_bead = beadGen.generateAngledBead(corner_radius, hole_radius, [0, bead[1]], cutout_query=False)[1]
             else:
                 if(bead_array[i+1][1] != 0 and bead_array[i-1][1] != 0):
-                    new_bead = tempBeadGen.junctionBead(1, 1, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
+                    new_bead = tempBeadGen.junctionBead(1, 1, bead[0]/2, bead[0], hole_radius, corner_radius)
                 elif(bead_array[i+1][1] != 0 and bead_array[i-1][1] == 0):
-                    new_bead = tempBeadGen.junctionBead(1, 0, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
+                    new_bead = tempBeadGen.junctionBead(1, 0, bead[0]/2, bead[0], hole_radius, corner_radius)
                 elif(bead_array[i+1][1] == 0 and bead_array[i-1][1] != 0):
-                    new_bead = tempBeadGen.cylinderBead(0, 1, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
+                    new_bead = tempBeadGen.cylinderBead(0, 1, bead[0]/2, bead[0], hole_radius, corner_radius)
                 else:
-                    new_bead = tempBeadGen.cylinderBead(0, 0, bead[0]/2, bead[0], hole_radius, bead[0]*0.707)
+                    new_bead = tempBeadGen.cylinderBead(0, 0, bead[0]/2, bead[0], hole_radius, corner_radius)
         elif(corner_type==1):
             if(bead[1] != 0):
                 new_bead = tempBeadGen.curvedCylinderBead(bead[0]/2, bead[1], hole_radius)
