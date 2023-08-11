@@ -39,20 +39,20 @@ def generateSphereTip(hole_radius: float, radius: float, export: bool = True):
     return (tools.exportSTL(tip, "sphere-tip", 1), tip)
 
 
-def generateBead(cut: Part, length: float):
+def generateBead(cut: Part, length: float, flatten: int):
     base = sweep(
         sections=section(obj=cut, section_by=Plane.XY), path=Line((0, 0, 0), (0, 0, length))
     )
     tip = Plane(base.faces().sort_by().last) * cut
 
-    b = base + tip - cut
-    # match style:
-    #     case BeadStyle.DEFAULT:
-    #         b = base + tip - cut
-    #     case BeadStyle.FLAT_BOTTOM:
-    #         b = base + tip
-    #     case BeadStyle.FLAT_TOP:
-    #         b = base - cut
+    b = base
+    match flatten:
+        case 0:
+            b = b + tip - cut
+        case 1:
+            b = b + tip
+        case 2:
+            b = b - cut
 
     hole_shape = cut.faces().sort_by().last
     b -= extrude(
@@ -64,26 +64,21 @@ def generateBead(cut: Part, length: float):
     return (tools.exportSTL(b, "bead", 1), b)
 
 
-def generateBeadLine(
-    cut: Part,
-    segments: int,
-    length: float,
-):
-    b = generateBead(cut=cut, length=length / segments)[1]
-    # begin = bead.bead(**bead_args, style=bead.BeadStyle.FLAT_BOTTOM)
-    # end = bead.bead(**bead_args, style=bead.BeadStyle.FLAT_TOP)
-    # flat = bead.bead(**bead_args, style=bead.BeadStyle.FLAT_BOTH)
+def generateBeadLine(cut: Part, segments: int, length: float, flatten: int):
+    b = generateBead(cut=cut, length=length / segments, flatten=0)[1]
+    begin = generateBead(cut=cut, length=length / segments, flatten=1)[1]
+    end = generateBead(cut=cut, length=length / segments, flatten=2)[1]
 
-    beads = (segments) * [b]
-    # match style:
-    #     case bead.BeadStyle.DEFAULT:
-    #         beads += [b, b]
-    #     case bead.BeadStyle.FLAT_BOTTOM:
-    #         beads += [begin, b]
-    #     case bead.BeadStyle.FLAT_TOP:
-    #         beads += [b, end]
-    #     case bead.BeadStyle.FLAT_BOTH:
-    #         beads += [begin, end]
+    beads = (segments - 2) * [b]
+    match flatten:
+        case 0:
+            beads += [b, b]
+        case 1:
+            beads += [b, begin]
+        case 2:
+            beads += [b, end]
+        case 3:
+            beads += [begin, end]
 
     combined = tools.combineItemList(beads, cut.bounding_box().diagonal)
     return (tools.exportSTL(combined, "bead-line", 1), combined)
