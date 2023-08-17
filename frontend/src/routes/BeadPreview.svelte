@@ -7,10 +7,10 @@
   import UpdateButton from "$lib/UpdateButton.svelte";
   import ModeSelect from "$lib/ModeSelect.svelte";
 
-  const material = new THREE.MeshPhongMaterial({
+  const material = new THREE.MeshStandardMaterial({
     color: 0x9e8db9,
-    specular: 100,
-    shininess: 100,
+    roughness: 0.7,
+    metalness: 0.2,
   });
 
   let loader = new STLLoader();

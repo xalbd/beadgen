@@ -7,10 +7,10 @@
   import UpdateButton from "$lib/UpdateButton.svelte";
   import ModeSelect from "$lib/ModeSelect.svelte";
 
-  const material = new THREE.MeshPhongMaterial({
+  const material = new THREE.MeshStandardMaterial({
     color: 0xa345bf,
-    specular: 100,
-    shininess: 100,
+    roughness: 0.7,
+    metalness: 0.2,
   });
 
   let loader = new STLLoader();
@@ -31,7 +31,7 @@
     square: "Square",
     triangle: "Triangle",
     polygon: "Polygon",
-    shapeShifting: "Shape Shifting"
+    shapeShifting: "Shape Shifting",
   };
   const corner_types = { 0: "Large Sphere", 1: "Curved Cylinder" };
 
@@ -46,7 +46,6 @@
     } else if (struct_type == "shapeShifting") {
       api_path = `http://localhost:8000/api/shape-shifting-struct?shape1_sides=${shape1_sides}&shape2_sides=${shape2_sides}&total_length=${total_length}&total_beads=${total_beads}&hole_radius=${hole_radius}`;
     }
-    
 
     loadSTL(loader, scene, material, api_path);
   }
@@ -70,11 +69,11 @@
       values={struct_types}
     />
     {#if struct_type != "shapeShifting"}
-    <ModeSelect
-      label="Corner Type:"
-      bind:binding={corner_type}
-      values={corner_types}
-    />
+      <ModeSelect
+        label="Corner Type:"
+        bind:binding={corner_type}
+        values={corner_types}
+      />
     {/if}
 
     {#if !struct_type || struct_type == "polygon"}
@@ -122,21 +121,21 @@
     {/if}
 
     {#if struct_type != "shapeShifting"}
-    <label for="side-length-input"> Side Length </label>
-    <input
-      name="side-length-input"
-      class="h-10 bg-purple-400"
-      type="number"
-      bind:value={side_length}
-    />
+      <label for="side-length-input"> Side Length </label>
+      <input
+        name="side-length-input"
+        class="h-10 bg-purple-400"
+        type="number"
+        bind:value={side_length}
+      />
 
-    <label for="beads-per-side-input"> Beads Per Side </label>
-    <input
-      name="beads-per-side-input"
-      class="h-10 bg-purple-200"
-      type="number"
-      bind:value={beads_per_side}
-    />
+      <label for="beads-per-side-input"> Beads Per Side </label>
+      <input
+        name="beads-per-side-input"
+        class="h-10 bg-purple-200"
+        type="number"
+        bind:value={beads_per_side}
+      />
     {/if}
 
     <label for="hole-radius-input"> Hole Radius </label>
@@ -146,7 +145,6 @@
       type="number"
       bind:value={hole_radius}
     />
-    
 
     <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />

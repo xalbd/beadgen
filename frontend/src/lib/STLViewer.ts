@@ -9,6 +9,8 @@ export function createViewer(scene: THREE.Scene, id_name: string) {
     return;
   }
 
+  scene.background = new THREE.Color(0xbbbbbb);
+
   // initialize and insert renderer
   let renderer = new THREE.WebGLRenderer({ antialias: true });
   const styles = window.getComputedStyle(elem);
