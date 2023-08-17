@@ -1,4 +1,5 @@
 from enum import Enum
+import math
 
 class bead_type(Enum):
     # TIPBASE
@@ -143,6 +144,31 @@ def polygon_chain(num_sides, side_length, beads_per_side):
             else:
                 bead_array += [(bead_length, 0)]
     
+    return bead_array
+
+
+def polygon_shifting_chain(shape1_sides, shape2_sides, total_length, total_beads):
+    lcm = math.lcm(shape1_sides, shape2_sides)
+    if(total_beads % lcm != 0):
+        print("invalid # of beads")
+        return
+    bead_array = []
+    bead_length = total_length / total_beads
+
+    shape1_array = polygon_chain(shape1_sides, total_length/shape1_sides, int(total_beads/shape1_sides))
+    shape2_array = polygon_chain(shape2_sides, total_length/shape2_sides, int(total_beads/shape2_sides))
+
+    for bead in range(0, len(shape1_array)):
+        if(shape1_array[bead] != 0 and shape2_array[bead] == 0):
+            bead_array += shape1_array[bead]
+        elif(shape1_array[bead] == 0 and shape2_array[bead] != 0):
+            bead_array += shape2_array[bead]
+        elif(shape1_array[bead] != 0 and shape2_array[bead] != 0):
+            bead_array += [(bead_length, shape1_array[bead][1] + shape2_array[bead][1])]
+        else:
+            bead_array += [(bead_length, 0)]
+
+    print(bead_array)
     return bead_array
 
 

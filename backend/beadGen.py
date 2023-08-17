@@ -193,7 +193,7 @@ def generateSphere(radius: float, hole_radius: float, effective_angle: float, co
 def generateAngledBead(radius, hole_radius, angles, cutout_query):
     ratio = 0.88
     sphere = Sphere(radius)
-    bottom_cut = Pos(0, 0, -radius) * Sphere(radius)
+    bottom_cut = Pos(0, 0, -radius*4/3) * Sphere(radius)
     bottom_hole = Cylinder(hole_radius, radius, align=(Align.CENTER, Align.CENTER, Align.MAX))
 
     outer_bead = sphere
@@ -215,8 +215,6 @@ def generateAngledBead(radius, hole_radius, angles, cutout_query):
         top_hole = top_hole.rotate(axis, theta)
         inner_top_hole = inner_top_hole.rotate(axis, theta)
         outer_bead -= top_hole
-        if cutout_query:
-            inner_bead -= inner_top_hole
 
     if cutout_query:
         outer_bead -= bottom_cut
