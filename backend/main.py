@@ -153,10 +153,11 @@ def angled_sphere(
     radius: Annotated[float, Query(gt=0)],
     hole_radius: Annotated[float, Query(gt=0)],
     angles: Annotated[list[float], Query()],
+    copies: Annotated[int, Query(gt=0)]
     # cutoutQuery: Annotated[bool, Query()]
 ):
     result = beadGen.generateAngledBead(
-        radius=radius, hole_radius=hole_radius, angles=angles, cutout_query=False
+        radius=radius, hole_radius=hole_radius, angles=angles, cutout_query=False, copies=copies
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)

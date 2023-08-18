@@ -38,7 +38,7 @@
     } else if (bead_type == "normal") {
       api_path = `http://localhost:8000/api/sphere?radius=${radius}&hole_radius=${hole_radius}&effective_angle=${effective_angle}&copies=${copies}`;
     } else if (bead_type == "multi") {
-      api_path = `http://localhost:8000/api/angled-sphere?radius=${radius}&hole_radius=${hole_radius}`;
+      api_path = `http://localhost:8000/api/angled-sphere?radius=${radius}&hole_radius=${hole_radius}&copies=${copies}`;
       angles.forEach((angle) => {
         api_path += `&angles=${angle}`;
       });

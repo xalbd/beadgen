@@ -205,7 +205,7 @@ def generateSphere(radius: float, hole_radius: float, effective_angle: float, co
     )
 
 
-def generateAngledBead(radius, hole_radius, angles, cutout_query):
+def generateAngledBead(radius, hole_radius, angles, cutout_query, copies):
     ratio = 0.88
     sphere = Sphere(radius)
     bottom_cut = Pos(0, 0, -radius * 4 / 3) * Sphere(radius)
@@ -242,5 +242,11 @@ def generateAngledBead(radius, hole_radius, angles, cutout_query):
     )
     bead -= Pos(radius * 2 / 3, 0, 0) * drain_hole
     bead -= Pos(-radius * 2 / 3, 0, 0) * drain_hole
-
-    return (tools.exportSTL(bead, "angled-spherical-bead", 1), bead)
+    return (
+        tools.exportSTL(
+            tools.combineItemList([bead] * copies, bead.bounding_box().diagonal),
+            "angled-spherical-bead",
+            1,
+        ),
+        bead,
+    )
