@@ -40,7 +40,7 @@ def generateSphereTip(hole_radius: float, radius: float, export: bool = True):
     return (tools.exportSTL(tip, "sphere-tip", 1), tip)
 
 
-def generateBead(cut: Part, length: float, flatten: int):
+def generateBead(cut: Part, length: float, flatten: int, copies: int):
     base = sweep(
         sections=section(obj=cut, section_by=Plane.XY), path=Line((0, 0, 0), (0, 0, length))
     )
@@ -61,14 +61,20 @@ def generateBead(cut: Part, length: float, flatten: int):
         amount=tip.faces().sort_by(SortBy.AREA).first.center().Z,
         both=True,
     )
+    return (
+        tools.exportSTL(
+            tools.combineItemList([b] * copies, b.bounding_box().diagonal),
+            "bead",
+            1,
+        ),
+        b,
+    )
 
-    return (tools.exportSTL(b, "bead", 1), b)
 
-
-def generateBeadLine(cut: Part, segments: int, length: float, flatten: int):
-    b = generateBead(cut=cut, length=length / segments, flatten=0)[1]
-    begin = generateBead(cut=cut, length=length / segments, flatten=1)[1]
-    end = generateBead(cut=cut, length=length / segments, flatten=2)[1]
+def generateBeadLine(cut: Part, segments: int, length: float, flatten: int, copies: int):
+    b = generateBead(cut=cut, length=length / segments, flatten=0, copies=1)[1]
+    begin = generateBead(cut=cut, length=length / segments, flatten=1, copies=1)[1]
+    end = generateBead(cut=cut, length=length / segments, flatten=2, copies=1)[1]
 
     beads = (segments - 2) * [b]
     match flatten:
@@ -81,8 +87,14 @@ def generateBeadLine(cut: Part, segments: int, length: float, flatten: int):
         case 3:
             beads += [begin, end]
 
-    combined = tools.combineItemList(beads, cut.bounding_box().diagonal)
-    return (tools.exportSTL(combined, "bead-line", 1), combined)
+    return (
+        tools.exportSTL(
+            tools.combineItemList(beads * copies, b.bounding_box().diagonal),
+            "bead-line",
+            1,
+        ),
+        b,
+    )
 
 
 def generateDouble(

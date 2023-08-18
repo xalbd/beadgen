@@ -18,6 +18,7 @@
 
   let result_type = "bead";
   let length = 5;
+  let copies = 1;
   let segments = 2;
   let flatten_top = false;
   let flatten_bottom = false;
@@ -36,9 +37,9 @@
   let api_path: string;
   function updateAPIPath() {
     if (result_type == "bead") {
-      api_path = `http://localhost:8000/api/bead?length=${length}&flatten=${calculateFlattenValue()}`;
+      api_path = `http://localhost:8000/api/bead?length=${length}&flatten=${calculateFlattenValue()}&copies=${copies}`;
     } else if (result_type == "line") {
-      api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}&flatten=${calculateFlattenValue()}`;
+      api_path = `http://localhost:8000/api/bead_line?segments=${segments}&length=${length}&flatten=${calculateFlattenValue()}&copies=${copies}`;
     }
 
     loadSTL(loader, scene, material, api_path);
@@ -89,6 +90,14 @@
         bind:value={segments}
       />
     {/if}
+
+    <label for="copies-input"> Copies </label>
+    <input
+      name="copies-input"
+      class="h-10 bg-purple-200"
+      type="number"
+      bind:value={copies}
+    />
 
     <UpdateButton on:requestUpdate={updateAPIPath} />
     <DownloadButton {api_path} />

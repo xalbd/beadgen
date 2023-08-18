@@ -66,11 +66,17 @@ def sphere_tip(
 
 
 @app.get("/api/bead")
-def bead(length: Annotated[float, Query(gt=0)], flatten: Annotated[int, Query(ge=0, le=3)]):
+def bead(
+    length: Annotated[float, Query(gt=0)],
+    flatten: Annotated[int, Query(ge=0, le=3)],
+    copies: Annotated[int, Query(gt=0)],
+):
     if not app.current_tip:
         print("not found")
         return
-    result = beadGen.generateBead(cut=app.current_tip, length=length, flatten=flatten)
+    result = beadGen.generateBead(
+        cut=app.current_tip, length=length, flatten=flatten, copies=copies
+    )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
 
@@ -80,12 +86,13 @@ def bead_line(
     segments: Annotated[int, Query(gt=1)],
     length: Annotated[float, Query(gt=0)],
     flatten: Annotated[int, Query(ge=0, le=3)],
+    copies: Annotated[int, Query(gt=0)],
 ):
     if not app.current_tip:
         print("not found")
         return
     result = beadGen.generateBeadLine(
-        cut=app.current_tip, segments=segments, length=length, flatten=flatten
+        cut=app.current_tip, segments=segments, length=length, flatten=flatten, copies=copies
     )
     filename = result[0]
     return FileResponse(path=directory + filename, filename=filename)
