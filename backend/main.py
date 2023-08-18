@@ -99,6 +99,7 @@ def double_sided(
     top_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = None,
     bottom_tip_angle: Annotated[float | None, Query(gt=0, lt=180)] = None,
     top_sphere_angles: Annotated[list[float] | None, Query()] = None,
+    double: bool = None,
 ):
     args = {
         "radius": radius,
@@ -114,6 +115,8 @@ def double_sided(
     for k, v in cur_args.items():
         if v:
             args[k] = v
+    if double:
+        args["double"] = True
 
     result = beadGen.generateDouble(**args)
     filename = result[0]
@@ -212,14 +215,13 @@ def polygon(
     return FileResponse(path=directory + filename, filename=filename)
 
 
-
 @app.get("/api/shape-shifting-struct")
 def shapeShiftingPolygon(
     shape1_sides: Annotated[int, Query(gt=2)],
     shape2_sides: Annotated[int, Query(gt=2)],
     total_length: Annotated[float, Query(gt=0)],
     total_beads: Annotated[int, Query(gt=1)],
-    hole_radius: Annotated[float, Query(gt=0)]
+    hole_radius: Annotated[float, Query(gt=0)],
 ):
     result = structureGen.polygonShiftingGen(
         shape1_sides=shape1_sides,

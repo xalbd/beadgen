@@ -45,6 +45,10 @@
       api_path += `&bottom_tip_angle=${bottom_cone_tip_angle}`;
     }
 
+    if (bead_type == "matching") {
+      api_path += "&double=1";
+    }
+
     loadSTL(loader, scene, material, api_path);
   }
 

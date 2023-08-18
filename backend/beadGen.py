@@ -1,6 +1,7 @@
 from build123d import *
 import math
 import tools
+from ocp_vscode import show
 
 
 def generateConeTip(hole_radius: float, radius: float, tip_angle: float, export: bool = True):
@@ -91,6 +92,7 @@ def generateDouble(
     top_tip_angle: float | None = None,
     bottom_tip_angle: float | None = None,
     top_sphere_angles: list[float] | None = None,
+    double: bool | None = None,
 ):
     if not (hole_radius < radius and (top_tip_angle or top_sphere_angles)):
         print("parameters missing or out of range")
@@ -136,6 +138,22 @@ def generateDouble(
             to_extrude=hole_shape,
             amount=tip.faces().sort_by(SortBy.AREA).first.center().Z,
             both=True,
+        )
+
+    if double:
+        tip = Pos(0, 0, -length) * tip
+        cut = Pos(0, 0, length) * cut
+        second = base - tip + cut
+        second -= extrude(
+            to_extrude=tip.faces().sort_by().last,
+            amount=cut.faces().sort_by(SortBy.AREA).first.center().Z,
+            both=True,
+        )
+        return (
+            tools.exportSTL(
+                tools.combineItemList([b, second], b.bounding_box().diagonal), "double-sided", 1
+            ),
+            b,
         )
 
     return (tools.exportSTL(b, "double-sided", 1), b)
@@ -193,7 +211,7 @@ def generateSphere(radius: float, hole_radius: float, effective_angle: float, co
 def generateAngledBead(radius, hole_radius, angles, cutout_query):
     ratio = 0.88
     sphere = Sphere(radius)
-    bottom_cut = Pos(0, 0, -radius*4/3) * Sphere(radius)
+    bottom_cut = Pos(0, 0, -radius * 4 / 3) * Sphere(radius)
     bottom_hole = Cylinder(hole_radius, radius, align=(Align.CENTER, Align.CENTER, Align.MAX))
 
     outer_bead = sphere
