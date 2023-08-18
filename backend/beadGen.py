@@ -122,17 +122,14 @@ def generateDouble(
 
     if top_sphere_angles:
         for o in top_sphere_angles:
-            line = (
-                Plane.XZ
-                * Pos(0, (cut.faces().sort_by().last.edges().first @ 0).Z, 0)
-                * PolarLine(
-                    start=(0, 0, 0),
-                    length=length,
-                    angle=90 - o,
-                    length_mode=LengthMode.VERTICAL,
-                )
+            s = (
+                Pos(0, 0, cut.faces().sort_by().last.center().Z)
+                * Rot(0, o, 0)
+                * Pos(0, 0, -cut.faces().sort_by().last.center().Z)
+                * cut.faces().sort_by().last
             )
-            b -= sweep(sections=[hole_shape], path=line)
+            b -= extrude(to_extrude=s, amount=tip.faces().sort_by(SortBy.AREA).first.center().Z)
+
     else:
         b -= extrude(
             to_extrude=hole_shape,
