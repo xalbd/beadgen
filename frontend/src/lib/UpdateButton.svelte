@@ -5,7 +5,15 @@
   function requestAPIUpdate() {
     dispatch("requestUpdate");
   }
+
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.code == "Enter") {
+      dispatch("requestUpdate");
+    }
+  }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <button
   class="h-10 rounded-full bg-green-400 hover:bg-green-500 active:bg-green-600 mt-2 flex flex-row items-center justify-center"
