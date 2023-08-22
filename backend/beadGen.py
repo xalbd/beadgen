@@ -135,12 +135,14 @@ def generateDouble(
     if top_sphere_angles:
         for o in top_sphere_angles:
             s = (
-                Pos(0, 0, cut.faces().sort_by().last.center().Z)
+                Pos(0, 0, tip.faces().sort_by().first.center().Z)
                 * Rot(0, o, 0)
-                * Pos(0, 0, -cut.faces().sort_by().last.center().Z)
                 * cut.faces().sort_by().last
             )
-            b -= extrude(to_extrude=s, amount=tip.faces().sort_by(SortBy.AREA).first.center().Z)
+            b -= extrude(
+                to_extrude=s,
+                amount=-radius if o != 0 else -tip.faces().sort_by(SortBy.AREA).first.center().Z,
+            )
 
     else:
         b -= extrude(
